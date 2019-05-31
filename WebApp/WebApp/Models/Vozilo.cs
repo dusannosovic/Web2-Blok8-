@@ -11,7 +11,12 @@ namespace WebApp.Models
         [Key]
         public string Registracija { get; set; }
 
-        public double X { get; set; }
-        public double Y { get; set; }
+        public int BrojMesta { get; set; }
+
+        //public double X { get; set; }
+        //public double Y { get; set; }
+
+        public virtual Linija Linija { get; set; }
+        
     }
 }

@@ -10,7 +10,9 @@ namespace WebApp.Models
     {
         [Key]
         public string Naziv{ get; set;}
-        public decimal Koeficijent { get; set; }
+        public float Koeficijent { get; set; }
+
+        public virtual ICollection<Stavka> Stavka { get; set; }
 
     }
 }

@@ -70,6 +70,10 @@ namespace WebApp.App_Start
            
             container.RegisterType<DbContext, ApplicationDbContext>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, DemoUnitOfWork>();
+            container.RegisterType<ICenovnikRepository, CenovnikRepository>();
+            container.RegisterType<IKartaRepository, KartaRepository>();
+            container.RegisterType<IStanicaRepository, StanicaRepository>();
+            container.RegisterType<ILinijaRepository,LinijaRepository>();
         }
 
         public void Dispose()

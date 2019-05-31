@@ -16,4 +16,10 @@ namespace WebApp.Models
         Regularna,
         Penzionerska
     }
+    public enum Dan
+    {
+        RadniDan,
+        Subota,
+        Nedelja
+    }
 }

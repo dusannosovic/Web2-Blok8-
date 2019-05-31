@@ -11,6 +11,14 @@ namespace WebApp.Persistence.UnitOfWork
 {
     public class DemoUnitOfWork : IUnitOfWork
     {
+        [Dependency]
+        public ICenovnikRepository Cenovniks { get; set; }
+        [Dependency]
+        public IKartaRepository Kartas { get; set; }
+        [Dependency]
+        public IStanicaRepository Stanicas { get; set; }
+        [Dependency]
+        public ILinijaRepository Linijas { get; set; }
         private readonly DbContext _context;
       
         public DemoUnitOfWork(DbContext context)
@@ -20,26 +28,7 @@ namespace WebApp.Persistence.UnitOfWork
 
         public int Complete()
         {
-            try
-            {
-                System.Diagnostics.Debugger.Launch();
-                return _context.SaveChanges();
-            }
-            catch (DbEntityValidationException e)
-            {
-                System.Diagnostics.Debugger.Launch();
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
-            }
+            return _context.SaveChanges();
         }
 
         public void Dispose()

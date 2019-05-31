@@ -12,6 +12,9 @@ namespace WebApp.Models
         [Key]
         public string OznakaLinije { get; set; }
 
+        public virtual ICollection<Stanica> Stanicas { get; set; }
+        public virtual ICollection<Polasci> Polascis { get; set; }
 
+        public virtual ICollection<Vozilo> Vozilos { get; set; }
     }
 }

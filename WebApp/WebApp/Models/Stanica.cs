@@ -14,5 +14,7 @@ namespace WebApp.Models
 
         public string Adresa { get; set; }
 
+        public virtual ICollection<Linija> Linijas { get; set; }
+
     }
 }

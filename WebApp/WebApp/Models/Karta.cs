@@ -12,6 +12,9 @@ namespace WebApp.Models
         public string Prezime { get; set; }
         public TipKar TipKarte {get;set;}
         public DateTime DatumIzdavanja { get; set; }
+        //public float Cena { get; set; }
+
+        public virtual Stavka Stavka { get; set; }
 
     }
 }

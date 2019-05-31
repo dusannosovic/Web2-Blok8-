@@ -12,5 +12,7 @@ namespace WebApp.Models
         public string Tip { get; set; }
 
         public float Cena { get; set; }
+
+        public virtual ICollection<Stavka> Stavkas { get; set; } 
     }
 }
