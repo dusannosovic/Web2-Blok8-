@@ -8,6 +8,7 @@ namespace WebApp.Models
     public class Stavka
     {
         public int Id { get; set; }
+        public float? Cena { get; set; }
         public virtual ICollection<Karta> Kartas { get; set; }
 
         public virtual TipKarte TipKarte { get; set; }

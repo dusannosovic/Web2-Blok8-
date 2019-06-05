@@ -254,8 +254,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KartaController.cs" />
     <Compile Include="Controllers\LinijaController.cs" />
+    <Compile Include="Controllers\PolasciController.cs" />
     <Compile Include="Controllers\StanicaController.cs" />
+    <Compile Include="Controllers\StavkaController.cs" />
+    <Compile Include="Controllers\TipKarteController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VrstaPutnikaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -263,18 +267,23 @@
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905270920223_AddProduct.cs" />
-    <Compile Include="Migrations\201905270920223_AddProduct.Designer.cs">
-      <DependentUpon>201905270920223_AddProduct.cs</DependentUpon>
+    <Compile Include="Migrations\201906051042491_Model.cs" />
+    <Compile Include="Migrations\201906051042491_Model.Designer.cs">
+      <DependentUpon>201906051042491_Model.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905311311311_Model.cs" />
-    <Compile Include="Migrations\201905311311311_Model.Designer.cs">
-      <DependentUpon>201905311311311_Model.cs</DependentUpon>
+    <Compile Include="Migrations\201906051136244_UpdateModel.cs" />
+    <Compile Include="Migrations\201906051136244_UpdateModel.Designer.cs">
+      <DependentUpon>201906051136244_UpdateModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906051850368_UpdateModel2.cs" />
+    <Compile Include="Migrations\201906051850368_UpdateModel2.Designer.cs">
+      <DependentUpon>201906051850368_UpdateModel2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\BindingModels.cs" />
     <Compile Include="Models\Cenovnik.cs" />
     <Compile Include="Models\Enumeration.cs" />
     <Compile Include="Models\Karta.cs" />
@@ -291,12 +300,20 @@
     <Compile Include="Persistence\Repository\ICenovnikRepository.cs" />
     <Compile Include="Persistence\Repository\IKartaRepository.cs" />
     <Compile Include="Persistence\Repository\ILinijaRepository.cs" />
+    <Compile Include="Persistence\Repository\IPolasciRepository.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\IStanicaRepository.cs" />
+    <Compile Include="Persistence\Repository\IStavkaRepository.cs" />
+    <Compile Include="Persistence\Repository\ITipKarteRepository.cs" />
+    <Compile Include="Persistence\Repository\IVrstaPutnikaRepository.cs" />
     <Compile Include="Persistence\Repository\KartaRepository.cs" />
     <Compile Include="Persistence\Repository\LinijaRepository.cs" />
+    <Compile Include="Persistence\Repository\PolasciRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
     <Compile Include="Persistence\Repository\StanicaRepository.cs" />
+    <Compile Include="Persistence\Repository\StavkaRepository.cs" />
+    <Compile Include="Persistence\Repository\TipKarteRepository.cs" />
+    <Compile Include="Persistence\Repository\VrstaPutnikaRepository.cs" />
     <Compile Include="Persistence\UnitOfWork\DemoUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -400,11 +417,14 @@
     <EmbeddedResource Include="Migrations\201905222056072_InitialMigration.resx">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905270920223_AddProduct.resx">
-      <DependentUpon>201905270920223_AddProduct.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906051042491_Model.resx">
+      <DependentUpon>201906051042491_Model.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905311311311_Model.resx">
-      <DependentUpon>201905311311311_Model.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906051136244_UpdateModel.resx">
+      <DependentUpon>201906051136244_UpdateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906051850368_UpdateModel2.resx">
+      <DependentUpon>201906051850368_UpdateModel2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

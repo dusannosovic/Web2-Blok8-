@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         }
         public IEnumerable<Cenovnik> Get()
         {
-            return _unitOfWork.Cenovniks.GetAll();
+            return null;
         }
 
         // GET: api/Cenovnik/5

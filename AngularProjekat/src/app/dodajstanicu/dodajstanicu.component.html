@@ -1,0 +1,43 @@
+<p>
+  <!-- Kreiramo mapu -->
+  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="12" (mapClick)="placeMarker($event)">  
+
+    <agm-marker *ngIf="markerInfo != null" [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
+    [label]="markerInfo.label" [iconUrl]="markerInfo.iconUrl">
+
+      <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+      <agm-info-window  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" >
+
+        <!-- U info-window stavljamo html -->
+        <span style="font-size: 16px;font-family:'Times New Roman'">Fakultet tehničkih nauka</span>
+        <br/>
+        <span style="font-family:'Times New Roman'; color:gray;"><strong>Jugodrvo</strong></span>
+        <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span>
+        <a [href]="markerInfo.link">See the site.</a>
+      </agm-info-window>
+
+    </agm-marker>
+
+    <!--<agm-polyline [strokeColor]="polyline.color">
+         <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
+         </agm-polyline-point>
+    </agm-polyline>-->
+
+    <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
+    </agm-marker>
+
+  </agm-map>
+</p>
+<form [formGroup]="StationForm" (ngSubmit)="onSubmit()">
+  <label class="label">
+      Ime stanice
+      <input type="text" formControlName="stationName" required>
+  </label>
+  <label class="label">
+      Adresa
+      <input type = "text" formControlName="stationAddres" required>
+  </label>
+</form>
+<p>
+  <button (click) = "addStation" class="btn btn-primary">Dodaj stanicu</button>
+</p>

@@ -12,6 +12,7 @@ namespace WebApp.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Valid = c.Boolean(nullable: false),
                         StartTime = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
                     })
@@ -22,6 +23,7 @@ namespace WebApp.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Cena = c.Single(nullable: false),
                         Cenovnik_Id = c.Int(),
                         TipKarte_Tip = c.String(maxLength: 128),
                         VrstaPutnika_Naziv = c.String(maxLength: 128),
@@ -112,6 +114,15 @@ namespace WebApp.Migrations
                 .Index(t => t.Linija_OznakaLinije);
             
             CreateTable(
+                "dbo.Products",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.PolasciLinijas",
                 c => new
                     {
@@ -161,6 +172,7 @@ namespace WebApp.Migrations
             DropIndex("dbo.Stavkas", new[] { "Cenovnik_Id" });
             DropTable("dbo.StanicaLinijas");
             DropTable("dbo.PolasciLinijas");
+            DropTable("dbo.Products");
             DropTable("dbo.Voziloes");
             DropTable("dbo.Stanicas");
             DropTable("dbo.Polascis");

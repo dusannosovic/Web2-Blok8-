@@ -36,7 +36,7 @@ namespace WebApp.Controllers
         // POST: api/Karta
         public void Post([FromBody]string value)
         {
-
+            
         }
 
         // PUT: api/Karta/5

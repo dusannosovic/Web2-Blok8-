@@ -22,28 +22,55 @@ namespace WebApp.Controllers
             _context = context;
         }
             // GET: api/Linija
-            public IEnumerable<Linija> GetLinijas()
+        public IEnumerable<LinijaBinding> GetLinijas()
         {
-            return _unitOfWork.Linijas.GetAll();
+            List<LinijaBinding> linijas = new List<LinijaBinding>();
+            foreach (Linija lin in _unitOfWork.Linijas.GetAll())
+            {
+                linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+            }
+            //return _unitOfWork.Linijas.GetAll();
+            return linijas.AsEnumerable();
         }
 
         // GET: api/Linija/5
-        /*public string Get(int id)
+        [Route("api/lins")]
+        [HttpGet]
+        public IEnumerable<LinijaBinding> GetLinija(string linija)
         {
-            return "value";
-        }*/
+            List<LinijaBinding> linijas = new List<LinijaBinding>();
+            foreach (Linija lin in _unitOfWork.Linijas.GetAll())
+            {
+                if(lin.TipLinije.ToString() == linija)
+                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+            }
+            //return _unitOfWork.Linijas.GetAll();
+            return linijas.AsEnumerable();
+        }
 
         // POST: api/Linija
-        public IHttpActionResult PostLinija()
+        public IHttpActionResult PostLinija(LinijaPolasciBinding linijaas)
         {
             var req = HttpContext.Current.Request;
-            TipLin tip;
-            Enum.TryParse(req.Form["TipLin"],out tip);
-            var linija = new Linija() { OznakaLinije = req.Form["OznLin"], TipLinije = tip };
+
+            Linija linija = new Linija() { OznakaLinije = linijaas.Linija.OznakaLinije, TipLinije = linijaas.Linija.TipLinije };
+            List<Polasci> list = new List<Polasci>();
+            foreach (PolazakBinding polazak in linijaas.Polasci)
+            {
+                foreach (Polasci pol in _unitOfWork.Polascis.GetAll())
+                {
+                    if (polazak.Dan == pol.Dan && polazak.VremePolaska == pol.VremePolaska.ToString())
+                    {
+                        list.Add(pol);
+                    }
+                }
+            }
+  
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            linija.Polascis = list;
             _unitOfWork.Linijas.Add(linija);
             _unitOfWork.Complete();
             return CreatedAtRoute("DefaultApi", new { id = linija.OznakaLinije }, linija);
@@ -52,6 +79,7 @@ namespace WebApp.Controllers
         // PUT: api/Linija/5
         public void Put(int id, [FromBody]string value)
         {
+           
         }
 
         // DELETE: api/Linija/5

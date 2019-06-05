@@ -1,0 +1,14 @@
+<table class="table table-light">
+  <thead>
+    <th scope="col">Tip karte</th>
+    <th scope="col">Popust</th>
+    <th scope="col">Cena</th>
+  </thead>
+  <tbody>
+    <tr mdbTableCol *ngFor="let cen of stavke">
+      <td>{{cen.TipKarte}}</td>
+      <td>{{cen.TipPopusta}}</td>
+      <td>{{cen.Cena}}</td>
+    </tr>
+  </tbody>
+</table>

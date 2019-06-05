@@ -8,10 +8,11 @@ namespace WebApp.Models
     public class Cenovnik
     {
         public int Id { get; set; }
+        public bool Valid { get; set; }
 
         public DateTime StartTime{get;set;}
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public virtual ICollection<Stavka> Stavka { get; set; }
     }

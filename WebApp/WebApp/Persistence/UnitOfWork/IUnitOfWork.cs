@@ -16,6 +16,14 @@ namespace WebApp.Persistence.UnitOfWork
         ILinijaRepository Linijas { get; set; }
 
         IStanicaRepository Stanicas { get; set; }
+
+        IPolasciRepository Polascis { get; set; }
+
+        ITipKarteRepository TipKartes { get; set; }
+
+        IVrstaPutnikaRepository VrstaPutnikas { get; set; }
+
+        IStavkaRepository Stavkas { get; set; }
         int Complete();
     }
 }

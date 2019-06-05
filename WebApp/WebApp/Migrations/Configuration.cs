@@ -3,6 +3,8 @@ namespace WebApp.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Validation;
@@ -68,6 +70,22 @@ namespace WebApp.Migrations
                     userManager.Create(user);
                     userManager.AddToRole(user.Id, "AppUser");
                 }
+                
+                  Polasci polazak1 = new Polasci() { Dan = 0, VremePolaska = new TimeSpan(12,0,0) };
+                  context.Polascis.Add(polazak1);
+                  Polasci polazak2 = new Polasci() { Dan = 0, VremePolaska = new TimeSpan(13,0,0) };
+                  context.Polascis.Add(polazak2);
+                  Polasci polazak3 = new Polasci() { Dan = 0, VremePolaska = new TimeSpan(14,0,0) };
+                  context.Polascis.Add(polazak3);
+                  Polasci polazak4 = new Polasci() { Dan = 0, VremePolaska = new TimeSpan(15,0,0 )};
+                  context.Polascis.Add(polazak4);
+                 /* Linija linija = new Linija() { OznakaLinije = "liniaj3", Polascis = new List<Polasci> { polazak1,polazak2,polazak3,polazak4}, TipLinije = TipLin.Gradska};
+
+                  context.Linijas.Add(linija);
+                  context.SaveChanges();*/
+                //Cenovnik cenovnik = new Cenovnik() { Valid = true, StartTime = DateTime.Now };
+                //context.Cenovniks.Add(cenovnik);
+                context.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {

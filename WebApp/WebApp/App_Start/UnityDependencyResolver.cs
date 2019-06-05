@@ -74,6 +74,10 @@ namespace WebApp.App_Start
             container.RegisterType<IKartaRepository, KartaRepository>();
             container.RegisterType<IStanicaRepository, StanicaRepository>();
             container.RegisterType<ILinijaRepository,LinijaRepository>();
+            container.RegisterType<IPolasciRepository, PolasciRepository>();
+            container.RegisterType<ITipKarteRepository, TipKarteRepository>();
+            container.RegisterType<IVrstaPutnikaRepository, VrstaPutnikaRepository>();
+            container.RegisterType<IStavkaRepository, StavkaRepository>();
         }
 
         public void Dispose()

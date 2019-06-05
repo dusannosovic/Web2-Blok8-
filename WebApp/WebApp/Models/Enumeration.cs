@@ -7,8 +7,8 @@ namespace WebApp.Models
 {
     public enum TipLin
     {
-        Gradska,
-        Prigradska
+        Gradska = 0,
+        Prigradska = 1
     }
     public enum TipKar
     {

@@ -1,0 +1,23 @@
+<form [formGroup]="linijaForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+  <label>
+    Oznaka:
+    <input type="text" class= "form-control"formControlName="oznakaLinije" required placeholder="Unesi oznaku linije">
+  </label>
+  </div>
+
+  <div class="form-group">
+    <label> Tip Linije: </label>
+    <select class="form-control" formControlName="tipLin" required id="tipLin"> 
+      <option *ngFor="let l of tipLinije " [value] = l>{{l}}</option>
+    </select>
+  </div>
+</form>
+<ul class="list-group">
+  <li *ngFor="let lin of polazak" class="list-group-item" (click)="deletePolazak(lin)" >
+    <span> Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+  </li>
+</ul>
+<p>
+  <button (click) = "dodajLiniju()" class="btn btn-primary">Dodaj Liniju</button>
+</p>
