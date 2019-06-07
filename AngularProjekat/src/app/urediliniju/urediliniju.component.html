@@ -1,3 +1,35 @@
+<form [formGroup]="linijaForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label> Oznaka Linije: </label>
+    <select class="form-control" formControlName="linija" required id="linija" (change)="getAll()" > 
+      <option *ngFor="let l of linije " [value] = l.OznakaLinije>{{l.OznakaLinije}}</option>
+    </select>
+  </div>
+</form>
+<label class="label label-default"> Polasci linije </label>
+<ul class="list-group">
+  <li *ngFor="let lin of polascilinije" class="list-group-item" (click)="izbrisiPolazak(lin)" >
+    <span>Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+  </li>
+</ul>
+<label class="label label-default"> Slobodni polasci </label>
+<ul class="list-group">
+  <li *ngFor="let lin of polasciVanLinije" class="list-group-item" (click)="dodajPolazak(lin)" >
+    <span>Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+  </li>
+</ul>
+<label class="label label-default"> Polasci linije </label>
+<ul class="list-group">
+  <li *ngFor="let st of staniceLinije" class="list-group-item" (click)="izbrisiStanicu(st)" >
+    <span>Adresa stanice:  {{st.label}}</span>   Naziv stanice:  {{st.title}}
+  </li>
+</ul>
+<label class="label label-default"> Slobodne stanice </label>
+<ul class="list-group">
+  <li *ngFor="let st of staniceVanLinije" class="list-group-item" (click)="dodajStanicu(st)" >
+    <span>Adresa stanice:  {{st.label}}</span>   Naziv stanice:  {{st.title}}
+  </li>
+</ul>
 <p>
-  urediliniju works!
+  <button (click) = "updateLinija()" class="btn btn-primary">Dodaj Liniju</button>
 </p>

@@ -7,10 +7,12 @@ namespace WebApp.Models
 {
     public class MarkerInfo
     {
+        public int id { get; set; }
+        public string title { get; set; }
+        public string label { get; set; }
+        public GeoLocation location { get; set; }
 
-        GeoLocation location { get; set; }
-        string title { get; set; }
-        string label { get; set; }
+
         
     }
     public class GeoLocation
@@ -41,5 +43,7 @@ namespace WebApp.Models
     {
         public LinijaBinding Linija { get; set; }
         public PolazakBinding[] Polasci { get; set; }
+
+        public MarkerInfo[] Stanice { get; set; }
     }
 }

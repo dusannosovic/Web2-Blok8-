@@ -12,7 +12,14 @@
       <input type="text" class= "form-control"formControlName="minuti" required placeholder="Uneti minute">
     </label>
   </div>
+  <div class="form-group">
+    <label> Dan u nedelji </label>
+    <select class="form-control" formControlName="dan" required id="dan"> 
+      <option *ngFor="let r of radniDan " [value] = r>{{r}}</option>
+    </select>
+
+</div>
 </form>
 <p>
-  <button (click) = "dodajLiniju()" class="btn btn-primary">Dodaj Liniju</button>
+  <button (click) = "dodajPolazak()" class="btn btn-primary">Dodaj Liniju</button>
 </p>

@@ -13,9 +13,16 @@
     </select>
   </div>
 </form>
+<label class="label label-default"> Polasci </label>
 <ul class="list-group">
   <li *ngFor="let lin of polazak" class="list-group-item" (click)="deletePolazak(lin)" >
-    <span> Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+    <span>Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+  </li>
+</ul>
+<label class="label label-default"> Stanice </label>
+<ul class="list-group">
+  <li *ngFor="let st of stanicalist" class="list-group-item" (click)="deleteStanica(st)" >
+    <span>Adresa stanice:  {{st.label}}</span>   Naziv stanice:  {{st.title}}
   </li>
 </ul>
 <p>

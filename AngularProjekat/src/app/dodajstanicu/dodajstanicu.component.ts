@@ -4,6 +4,7 @@ import { GeoLocation } from './model/geolocation';
 import { Polyline } from './model/polyline';
 import { FormBuilder } from '@angular/forms';
 import {Validators} from '@angular/forms'
+import { LinijaService } from '../linija.service';
 
 @Component({
   selector: 'app-dodajstanicu',
@@ -18,6 +19,7 @@ export class DodajstanicuComponent implements OnInit {
   latitude= 45.242268;
   public polyline: Polyline;
   public zoom: number;
+  url : any = {url:"assets/busicon.png", scaledSize: {width:50,height:50}};
   StationForm = this.fb.group({
     stationName:[''],
     stationAddres:['']
@@ -32,16 +34,22 @@ export class DodajstanicuComponent implements OnInit {
       this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
   }
 
-  constructor(private fb: FormBuilder, private ngZone: NgZone){
+  constructor(private fb: FormBuilder, private ngZone: NgZone, private linijaService: LinijaService){
   }
 
   placeMarker($event){
     /*this.polyline.addLocation(new GeoLocation($event.coords.lat, $event.coords.lng))
     console.log(this.polyline) */
-    this.markerInfo = new MarkerInfo(new GeoLocation($event.coords.lat, $event.coords.lng), 
-      {url:"assets/busicon.png", scaledSize: {width:50,height:50}},"","","");
+    this.markerInfo = new MarkerInfo(new GeoLocation($event.coords.lat, $event.coords.lng), "","");
   }
   onSubmit() {
     console.warn(this.StationForm.value);
+  }
+  addStanicu(){
+    if(this.markerInfo != null){
+      this.markerInfo.title = this.StationForm.get('stationName').value;
+      this.markerInfo.label = this.StationForm.get('stationAddres').value;
+      this.linijaService.addStanica(this.markerInfo).subscribe();
+    }
   }
 }

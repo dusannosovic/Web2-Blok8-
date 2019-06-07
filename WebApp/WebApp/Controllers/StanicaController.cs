@@ -22,9 +22,48 @@ namespace WebApp.Controllers
             _context = context;
         }
             // GET: api/Stanica
-        public IEnumerable<Stanica> GetStanicas()
+        public IEnumerable<MarkerInfo> GetStanicas()
         {
-            return _unitOfWork.Stanicas.GetAll();
+            List<MarkerInfo> stanicas = new List<MarkerInfo>();
+            foreach(Stanica st in _unitOfWork.Stanicas.GetAll())
+            {
+                stanicas.Add(new MarkerInfo() { location = new GeoLocation() { latitude = st.X, longitude = st.Y }, label = st.Adresa, title = st.Naziv, id = st.Id});
+            }
+            return stanicas.AsEnumerable();
+        }
+        [Route("api/getstanicaother")]
+        [HttpGet]
+        public IEnumerable<MarkerInfo> GetStanicaByLin(string linija)
+        {
+            bool check = false;
+            List<MarkerInfo> stanicas = new List<MarkerInfo>();
+            foreach (Stanica sta in _unitOfWork.Stanicas.GetAll())
+            {
+                check = false;
+                foreach (Linija li in sta.Linijas)
+                {
+                    if (li.OznakaLinije == linija)
+                    {
+                        check = true;
+                    }
+                }
+                if (!check)
+                    stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y},label = sta.Adresa, title = sta.Naziv });
+            }
+            //return _unitOfWork.Linijas.GetAll();
+            return stanicas.AsEnumerable();
+        }
+        [Route("api/getstanicamy")]
+        [HttpGet]
+        public IEnumerable<MarkerInfo> GetStanicaLin(string linija)
+        {
+            Linija lin = _unitOfWork.Linijas.GetAll().Single(lins => lins.OznakaLinije == linija);
+            List<MarkerInfo> stanicas = new List<MarkerInfo>();
+            foreach (Stanica sta in lin.Stanicas)
+            {
+                stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y }, label = sta.Adresa, title = sta.Naziv });
+            }
+            return stanicas.AsEnumerable();
         }
         /*
         // GET: api/Stanica/5
@@ -34,14 +73,10 @@ namespace WebApp.Controllers
         }*/
 
         // POST: api/Stanica
-        public IHttpActionResult PostStanica()
+        public IHttpActionResult PostStanica(MarkerInfo marker)
         {
-            var req = HttpContext.Current.Request;
-            double x;
-            double y;
-            double.TryParse(req.Form["X"], out x);
-            double.TryParse(req.Form["Y"], out y);
-            var stanica = new Stanica() { Naziv = req.Form["Naziv"], Adresa = req.Form["Adr"], X = x,Y = y };
+            //var req = HttpContext.Current.Request;
+            var stanica = new Stanica() { Naziv = marker.title, Adresa = marker.label, X = marker.location.latitude,Y = marker.location.longitude };
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -49,6 +84,30 @@ namespace WebApp.Controllers
             _unitOfWork.Stanicas.Add(stanica);
             _unitOfWork.Complete();
             return CreatedAtRoute("DefaultApi", new { id = stanica. Naziv }, stanica);
+        }
+        [Route("api/updatestanica")]
+        [HttpPost]
+        public IHttpActionResult UpdateStanica(MarkerInfo marker)
+        {
+            Stanica stanica = _unitOfWork.Stanicas.GetAll().Single(sta => sta.Id == marker.id);
+            if(stanica.Naziv != marker.title)
+            {
+                stanica.Naziv = marker.title;
+            }
+            if (stanica.Adresa != marker.label)
+            {
+                stanica.Adresa = marker.label;
+            }
+            if (stanica.X != marker.location.latitude)
+            {
+                stanica.X = marker.location.latitude;
+            }
+            if (stanica.Y != marker.location.longitude)
+            {
+                stanica.Y = marker.location.longitude;
+            }
+            _unitOfWork.Complete();
+            return CreatedAtRoute("DefaultApi", new { id = stanica.Id }, stanica);
         }
 
         // PUT: api/Stanica/5

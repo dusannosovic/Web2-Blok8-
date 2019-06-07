@@ -1,3 +1,44 @@
+<form [formGroup]="stanicaForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label> Naziv stanice: </label>
+    <select class="form-control" formControlName="stanica" required id="stanica" (change)="setStanicu()" > 
+      <option *ngFor="let l of stanice " [value] = l.id>{{l.title}}</option>
+    </select>
+  </div>
+</form>
 <p>
-  uredistanicu works!
+  <!-- Kreiramo mapu -->
+  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="12" (mapClick)="placeMarker($event)">  
+
+    <agm-marker *ngIf="markerInfo != null" [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
+    [label]="markerInfo.label" [iconUrl]="url">
+
+      <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+    </agm-marker>
+
+    <!--<agm-polyline [strokeColor]="polyline.color">
+         <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
+         </agm-polyline-point>
+    </agm-polyline>-->
+    <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
+    </agm-marker>
+
+  </agm-map>
+</p>
+<form [formGroup]="stanicaadrnazForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+  <label>
+    Ime stanice:
+    <input type="text" class= "form-control"formControlName="imeStanice" required>
+  </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Adresa:
+      <input type="text" class= "form-control"formControlName="adresaStanice" required>
+    </label>
+    </div>
+</form>
+<p>
+  <button (click) = "updateStanica()" class="btn btn-primary">Dodaj Liniju</button>
 </p>
