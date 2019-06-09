@@ -26,5 +26,5 @@
   </li>
 </ul>
 <p>
-  <button (click) = "dodajLiniju()" class="btn btn-primary">Dodaj Liniju</button>
+  <button (click) = "dodajLiniju()" class="btn btn-primary" [disabled]="!linijaForm.valid">Dodaj Liniju</button>
 </p>

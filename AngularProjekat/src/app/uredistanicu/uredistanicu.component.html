@@ -40,5 +40,5 @@
     </div>
 </form>
 <p>
-  <button (click) = "updateStanica()" class="btn btn-primary">Dodaj Liniju</button>
+  <button (click) = "updateStanica()" class="btn btn-primary" [disabled]="!stanicaForm.valid">Sacuvaj</button>
 </p>

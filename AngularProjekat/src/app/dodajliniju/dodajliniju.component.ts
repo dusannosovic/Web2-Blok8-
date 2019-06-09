@@ -21,9 +21,9 @@ export class DodajlinijuComponent implements OnInit {
   polazak: Polazak[]
   stanicalist: MarkerInfo[]
   linijaForm = this.fb.group({
-    oznakaLinije: [''],
+    oznakaLinije: ['', Validators.required],
     tipLin: [this.tipLinije[0],Validators.required]
-  })
+  });
   constructor(private fb: FormBuilder, private linijaService: LinijaService) { }
   dodajLiniju(){
     this.lin = new Linija();

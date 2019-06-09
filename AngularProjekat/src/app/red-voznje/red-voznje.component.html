@@ -7,21 +7,35 @@
 
   </div>
   <div class="form-group">
-      <label> Dan u nedelji </label>
+      <label> Dan u nedelji: </label>
       <select class="form-control" formControlName="dan" required id="dan" (change)="getPolazaksdan()"> 
         <option *ngFor="let r of radniDan " [value] = r>{{r}}</option>
       </select>
   
   </div>
+  <div class="form-group"> 
+    <label>Linija:</label>
+    <select class="form-control" fromControlName="linija" required id="linija"  (change)="selectChangeHandler($event)"> 
+      <option *ngFor="let lin of linije" [value] = lin.OznakaLinije [selected]=lin.OznakaLinije> {{lin.OznakaLinije}}  </option>
+    </select>
+  </div>
+  <button  (click)="getPolazak()">Prikazi</button>
+  <ul class="list-group">
+          <li *ngFor="let lin of polasci" class="list-group-item" >
+              Vreme polaska  {{lin.VremePolaska}}
+        </li>
+    </ul>   
 </form>
 
-<ul class="list-group">
+
+
+<!-- <ul class="list-group">
   <li *ngFor="let lin of linije" class="list-group-item"  (click)="getPolazak(lin.OznakaLinije)">
     <span> Broj:  {{lin.OznakaLinije}}</span>   TipLinije  {{lin.TipLinije}}
   </li>
-</ul>
-<ul class="list-group">
+</ul>  -->
+<!-- <ul class="list-group">
   <li *ngFor="let lin of polasci" class="list-group-item" >
-    <span> Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+       Vreme polaska  {{lin.VremePolaska}}
   </li>
-</ul>
+</ul>  -->

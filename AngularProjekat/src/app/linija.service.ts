@@ -31,6 +31,7 @@ export class LinijaService{
     constructor(private http: HttpClient){}
 
     /** GET heroes from the server */
+
     getLinijas(): Observable<Linija[]>{
         return this.http.get<Linija[]>(this.linijasUrl).pipe(
         //   catchError(this.handleError<Linija[]>('getLinijas',[]))  
@@ -73,6 +74,7 @@ export class LinijaService{
     getStanica(): Observable<MarkerInfo[]>{
         return this.http.get<MarkerInfo[]>(this.stanicaUrl).pipe(catchError(this.handleError<MarkerInfo[]>('getStanica')));
     }
+    
     addLinija(linija: LinijaPolazak): Observable<LinijaPolazak> {
         console.log(linija);
         return this.http.post<LinijaPolazak>(this.linijasUrl, linija, httpOptions).pipe(

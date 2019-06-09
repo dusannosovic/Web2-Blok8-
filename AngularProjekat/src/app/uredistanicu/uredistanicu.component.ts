@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MarkerInfo } from '../dodajstanicu/model/marker-info.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { LinijaService } from '../linija.service';
 import { Polyline } from '../dodajstanicu/model/polyline';
 
@@ -16,7 +16,7 @@ export class UredistanicuComponent implements OnInit {
   public polyline: Polyline;
   url : any = {url:"assets/busicon.png", scaledSize: {width:50,height:50}};
   stanicaForm = this.fb.group({
-    stanica:['']
+    stanica:['', Validators.required]
   })
   longitude = 19.842954;
   latitude= 45.242268;

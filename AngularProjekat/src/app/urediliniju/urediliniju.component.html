@@ -31,5 +31,5 @@
   </li>
 </ul>
 <p>
-  <button (click) = "updateLinija()" class="btn btn-primary">Dodaj Liniju</button>
+  <button (click) = "updateLinija()" class="btn btn-primary" [disabled]="!linijaForm.valid">Sacuvaj</button>
 </p>

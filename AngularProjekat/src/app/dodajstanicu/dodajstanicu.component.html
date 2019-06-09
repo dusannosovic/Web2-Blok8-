@@ -29,5 +29,5 @@
   </label>
 </form>
 <p>
-  <button (click) = "addStanicu()" class="btn btn-primary">Dodaj stanicu</button>
+  <button (click) = "addStanicu()" class="btn btn-primary" [disabled]="!StationForm.valid">Dodaj stanicu</button>
 </p>

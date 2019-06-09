@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { LinijaService } from '../linija.service';
 import { Linija } from '../linija';
 import { Polazak } from '../polazak';
@@ -20,7 +20,7 @@ export class UredilinijuComponent implements OnInit {
   staniceVanLinije: MarkerInfo[];
   linpol: LinijaPolazak;
   linijaForm = this.fb.group({
-    linija:['']
+    linija:['', Validators.required]
   })
   constructor(private fb: FormBuilder, private linijaService: LinijaService) { }
 

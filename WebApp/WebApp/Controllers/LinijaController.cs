@@ -21,7 +21,7 @@ namespace WebApp.Controllers
             _unitOfWork = unitOfWork;
             _context = context;
         }
-            // GET: api/Linija
+        // GET: api/Linija
         public IEnumerable<LinijaBinding> GetLinijas()
         {
             List<LinijaBinding> linijas = new List<LinijaBinding>();
