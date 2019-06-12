@@ -9,7 +9,7 @@
       <td>{{cen.TipKarte}}</td>
       <td>{{cen.TipPopusta}}</td>
       <td>{{cen.Cena}}</td>
-      <td><button class="btn btn-primary" 
+      <td><button class="btn btn-primary"  *ngIf="(role == 'AppUser' && (cen.TipPopusta == type || cen.TipPopusta == 'Regularna')) || (!role && cen.TipPopusta == 'Regularna' && cen.TipKarte == 'Vremenska')" 
         routerLink="/kupiKartu/{{cen.TipKarte}}/{{cen.TipPopusta}}/{{cen.Cena}}">
         Kupi</button>
     </td>

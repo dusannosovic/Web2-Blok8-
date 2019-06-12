@@ -85,7 +85,7 @@ namespace WebApp.Migrations
                   context.SaveChanges();*/
                 //Cenovnik cenovnik = new Cenovnik() { Valid = true, StartTime = DateTime.Now };
                 //context.Cenovniks.Add(cenovnik);
-                context.SaveChanges();
+                //context.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {

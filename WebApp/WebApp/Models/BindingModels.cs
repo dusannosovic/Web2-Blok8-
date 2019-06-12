@@ -54,4 +54,9 @@ namespace WebApp.Models
         public string TipKarte { get; set; }
         public string Email { get; set; }
     }
+    public class TipKarteBinding
+    {
+        public string Tip { get; set; }
+        public float Cena { get; set; }
+    }
 }

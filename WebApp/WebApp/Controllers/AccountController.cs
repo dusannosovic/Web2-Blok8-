@@ -84,6 +84,21 @@ namespace WebApp.Controllers
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
         }
+         [HttpGet]
+        [AllowAnonymous]
+        [Route("GetUserType/{username}")]
+        public string GetUserType(string username)
+        {
+            ApplicationUser user = UserManager.FindByName(username);
+            if(user == null)
+            {
+                return "";
+            }
+            else
+            {
+                return user.UserType;
+            }
+        }
         [AllowAnonymous]
         [Route("GetUser")]
         public RegisterBindingModel GetUser(string username)
@@ -94,6 +109,7 @@ namespace WebApp.Controllers
             {
                 retVal = new RegisterBindingModel()
                 {
+
                     Username = user.UserName,
                     Firstname = user.Firstname,
                     Secondname = user.Secondname,
@@ -146,10 +162,19 @@ namespace WebApp.Controllers
                         PasswordHash = stariUser.PasswordHash
                     };
 
-                    IdentityResult result = await UserManager.DeleteAsync(stariUser);
+                    IdentityResult result = UserManager.Delete(stariUser);
+                    List<Karta> listKarta = new List<Karta>();
+                    foreach (Karta karta in UnitOfWork.Kartas.GetAll())
+                    {
+                        if (karta.Korisnik == username)
+                        {
+                            karta.Korisnik = temp.UserName;
 
-                    IdentityResult result2 = await UserManager.CreateAsync(temp);
-                    UserManager.AddToRole(user.Username, "AppUser");
+                        }
+                    }
+                    
+                    IdentityResult result2 = UserManager.Create(temp);
+                    IdentityResult roleResult = UserManager.AddToRole(user.Username, "AppUser");
 
                     UnitOfWork.Complete();
                     if (!result.Succeeded || !result2.Succeeded)
@@ -164,7 +189,7 @@ namespace WebApp.Controllers
                 ApplicationUser temp = UserManager.FindByName(user.Username);
                 if (temp != null)
                 {
-                    IdentityResult result = await UserManager.DeleteAsync(temp);
+                    //IdentityResult result = await UserManager.DeleteAsync(temp);
 
                     if (temp.UserType != user.UserType)
                     {
@@ -189,13 +214,13 @@ namespace WebApp.Controllers
 
 
 
-                    IdentityResult result2 = await UserManager.CreateAsync(temp);
-                    UserManager.AddToRole(user.Username, "AppUser");
-                    UnitOfWork.Complete();
+                    IdentityResult result2 =UserManager.Update(temp);
+                    //UserManager.AddToRole(user.Username, "AppUser");
+                    //UnitOfWork.Complete();
 
-                    if (!result.Succeeded || !result2.Succeeded)
+                    if (!result2.Succeeded)
                     {
-                        return GetErrorResult(result);
+                        return GetErrorResult(result2);
                     }
                     return Ok();
                 }
@@ -284,13 +309,13 @@ namespace WebApp.Controllers
                         {
                             return BadRequest("Greska prilikom uploada slike");
                         }
-
+                        /*
                         IdentityResult result = UserManager.Delete(user);
 
                         if (!result.Succeeded)
                         {
                             return BadRequest("Greska prilikom uploada slike");
-                        }
+                        }*/
 
                         var postedFile = httpRequest.Files[file];
                         string fileName = username + "_" + postedFile.FileName;
@@ -301,8 +326,8 @@ namespace WebApp.Controllers
                         user.IsVerified = false;
 
                         postedFile.SaveAs(filePath);
-                        IdentityResult result2 = UserManager.Create(user);
-                        UnitOfWork.Complete();
+                        IdentityResult result2 = UserManager.Update(user);
+                        //UnitOfWork.Complete();
                         if (!result2.Succeeded)
                         {
                             return BadRequest("Greska prilikom uploada slike");
@@ -559,6 +584,7 @@ namespace WebApp.Controllers
             }
 
             var user = new ApplicationUser() {
+                Id = model.Username,
                 UserName = model.Username,
                 Email = model.Email,
                 Firstname = model.Firstname,

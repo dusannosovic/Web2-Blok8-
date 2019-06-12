@@ -86,7 +86,8 @@ export class EditprofileComponent implements OnInit {
       this.editedUser.UserType = this.editForm.get('type').value;
       this.editedUser.OldUsername = this.oldUsername;
       this.editedUser.ImgUrl = this.mySrc;
-    
+
+
 
     if(this.authService.isLoggedIn()){
       this.userService.editProfile(this.editedUser).subscribe(
@@ -99,6 +100,10 @@ export class EditprofileComponent implements OnInit {
               data =>  { }
             )
           }
+          localStorage.removeItem('userType');
+          localStorage.setItem('userType', this.editedUser.UserType);
+          localStorage.removeItem('userId');
+          localStorage.setItem('userId', this.editedUser.Username);
           this.router.navigate(['/']);   
         },
         (error) => {}

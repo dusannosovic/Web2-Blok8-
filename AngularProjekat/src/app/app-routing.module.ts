@@ -15,6 +15,9 @@ import { RegistracijaComponent } from './registracija/registracija.component';
 import { KarteprikazComponent } from './karteprikaz/karteprikaz.component';
 import { EditprofileComponent } from './editprofile/editprofile.component';
 import { ChangpassComponent } from './changpass/changpass.component';
+import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component';
+import { AuthGuard } from './Services/auth.guard';
+import { AuthUserGuard } from './Services/authuser.guard';
 
 const routes: Routes = [
   {
@@ -36,11 +39,13 @@ const routes: Routes = [
   },
   {
     path:'editprofile',
-    component: EditprofileComponent
+    component: EditprofileComponent,
+    canActivate: [AuthUserGuard]
   },
   {
     path:'changpass',
-    component: ChangpassComponent
+    component: ChangpassComponent,
+    canActivate: [AuthUserGuard]
   },
   {
     path: 'kupiKartu/:tip/:popust/:cena',
@@ -52,7 +57,8 @@ const routes: Routes = [
   },
   {
     path: 'karteprikaz',
-    component: KarteprikazComponent
+    component: KarteprikazComponent,
+    canActivate: [AuthUserGuard]
   },
   {
     path: 'registracija',
@@ -61,6 +67,7 @@ const routes: Routes = [
   {
     path: 'logreg',
     component: LogregComponent,
+    canActivate: [AuthGuard],
     children:[{
         path:'logreg',
         redirectTo: '/dodajliniju',
@@ -78,6 +85,8 @@ const routes: Routes = [
       path: 'uredistanicu', component:UredistanicuComponent
     },{
       path: 'dodajpolazak', component:DodajpolazakComponent
+    },{
+      path: 'uredicenovnik', component:UredicenovnikComponent
     }
     ]
   }

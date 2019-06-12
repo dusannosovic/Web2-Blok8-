@@ -65,16 +65,16 @@
           <div class="form-group">
               <label>Tip korisnika:</label>
               <div class="row">
-                <span>RegularanKorisnik</span>
-                <input type="radio" name="type" [(ngModel)]="user.UserType" value="Regular" formControlName="type" class="form-control" />
+                <span>Regularan Korisnik</span>
+                <input type="radio" name="type" [(ngModel)]="user.UserType" value="Regularna" formControlName="type" class="form-control" />
             </div>
               <div class="row">
                 <span>Penzioner</span>
                 <input type="radio" name="type" [(ngModel)]="user.UserType" value="Penzioner" formControlName="type" class="form-control" />
             </div>
               <div class="row">
-                <span>Student</span>
-                <input type="radio" name="type"  [(ngModel)]="user.UserType"  value="Student" formControlName="type" class="form-control" />
+                <span>Djak</span>
+                <input type="radio" name="type"  [(ngModel)]="user.UserType"  value="Djak" formControlName="type" class="form-control" />
               </div>
           </div>
           <div class="form-group">
@@ -88,7 +88,7 @@
               </div>
             </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block" [disabled]="editForm.invalid" style="background: rgba(217, 23, 16) !important; outline-color: rgba(217, 23, 16, 0.3) !important">Izmeni</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" [disabled]="editForm.invalid">Izmeni</button>
           </div>
     </form>
     </div>

@@ -28,6 +28,7 @@ import { KarteprikazComponent } from './karteprikaz/karteprikaz.component';
 import { EditprofileComponent } from './editprofile/editprofile.component';
 import { ChangpassComponent } from './changpass/changpass.component';
 import{TokenInterceptor} from'./interceptor/token.interceptor';
+import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import{TokenInterceptor} from'./interceptor/token.interceptor';
     KarteprikazComponent,
     EditprofileComponent,
     ChangpassComponent,
+    UredicenovnikComponent,
   ],
   imports: [
     BrowserModule,

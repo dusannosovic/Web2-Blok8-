@@ -24,7 +24,8 @@ namespace WebApp.Controllers
         public IEnumerable<StavkaBinding> Get()
         {
             List<StavkaBinding> stavBin = new List<StavkaBinding>();
-            foreach (Stavka stav in _unitOfWork.Stavkas.GetAll())
+            Cenovnik cen =_unitOfWork.Cenovniks.GetAll().Last(s => s.Valid == true);
+            foreach (Stavka stav in cen.Stavka)
             {
                 stavBin.Add(new StavkaBinding() { Id = stav.Id, Cena = stav.TipKarte.Cena * stav.VrstaPutnika.Koeficijent, TipKarte = stav.TipKarte.Tip, TipPopusta = stav.VrstaPutnika.Naziv });
             }

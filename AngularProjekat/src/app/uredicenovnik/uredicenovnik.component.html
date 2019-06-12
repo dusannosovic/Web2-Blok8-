@@ -1,0 +1,28 @@
+<div class="container">
+  <h1> Uredjivanje cenovnika karata</h1>
+  <form [formGroup]="cenovnikForm">
+    <div class="form-group">
+    <label>
+      Vremenska:</label>
+      <input type="number" class= "form-control"formControlName="vremenskaForm" required>
+    </div>
+    <div class="form-group">
+      <label>
+      Dnevna: </label>
+        <input type="number" class= "form-control"formControlName="dnevnaForm" required>
+      </div>
+      <div class="form-group">
+        <label>
+        Mesecna: </label>
+          <input type="number" class= "form-control"formControlName="mesecnaForm" required>
+      </div>
+      <div class="form-group">
+          <label>
+          Godisnja: </label>
+            <input type="number" class= "form-control"formControlName="godisnjaForm" required>
+        </div>
+    </form>
+    <p>
+        <button (click) = "setCen()" class="btn btn-primary btn-lg btn-block" >Promeni cenovnik</button>
+      </p>
+</div>
