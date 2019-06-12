@@ -27,7 +27,9 @@ namespace WebApp.Controllers
             List<MarkerInfo> stanicas = new List<MarkerInfo>();
             foreach(Stanica st in _unitOfWork.Stanicas.GetAll())
             {
-                stanicas.Add(new MarkerInfo() { location = new GeoLocation() { latitude = st.X, longitude = st.Y }, label = st.Adresa, title = st.Naziv, id = st.Id});
+                if (!st.IsDeleted) {
+                    stanicas.Add(new MarkerInfo() { location = new GeoLocation() { latitude = st.X, longitude = st.Y }, label = st.Adresa, title = st.Naziv, id = st.Id });
+                }
             }
             return stanicas.AsEnumerable();
         }
@@ -47,7 +49,7 @@ namespace WebApp.Controllers
                         check = true;
                     }
                 }
-                if (!check)
+                if (!check && !sta.IsDeleted)
                     stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y},label = sta.Adresa, title = sta.Naziv });
             }
             //return _unitOfWork.Linijas.GetAll();
@@ -61,7 +63,9 @@ namespace WebApp.Controllers
             List<MarkerInfo> stanicas = new List<MarkerInfo>();
             foreach (Stanica sta in lin.Stanicas)
             {
-                stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y }, label = sta.Adresa, title = sta.Naziv });
+                if (!sta.IsDeleted) {
+                    stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y }, label = sta.Adresa, title = sta.Naziv });
+                }
             }
             return stanicas.AsEnumerable();
         }
@@ -76,7 +80,7 @@ namespace WebApp.Controllers
         public IHttpActionResult PostStanica(MarkerInfo marker)
         {
             //var req = HttpContext.Current.Request;
-            var stanica = new Stanica() { Naziv = marker.title, Adresa = marker.label, X = marker.location.latitude,Y = marker.location.longitude };
+            var stanica = new Stanica() { Naziv = marker.title, Adresa = marker.label, X = marker.location.latitude,Y = marker.location.longitude, IsDeleted = false };
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -116,8 +120,13 @@ namespace WebApp.Controllers
         }
 
         // DELETE: api/Stanica/5
+        [HttpDelete]
         public void Delete(int id)
         {
+            Stanica stanica = _unitOfWork.Stanicas.GetAll().Single(sta => sta.Id == id);
+            stanica.IsDeleted = true;
+            stanica.Linijas.Clear();
+            _unitOfWork.Complete();
         }
     }
 }

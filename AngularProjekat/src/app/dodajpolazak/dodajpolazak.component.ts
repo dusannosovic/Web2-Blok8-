@@ -14,8 +14,8 @@ export class DodajpolazakComponent implements OnInit {
   polazak: Polazak
   radniDan=['RadniDan','Subota','Nedelja']
   polazakForm = this.fb.group({
-    sati:['', Validators.required],
-    minuti:['', Validators.required],
+    sati:[''],
+    minuti:[''],
     dan:[this.radniDan[0],Validators.required]
   })
   constructor(private fb: FormBuilder, private linijaService:LinijaService) { }

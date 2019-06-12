@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -14,6 +16,8 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using WebApp.Models;
+using WebApp.Persistence.UnitOfWork;
+using WebApp.Persistence;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -25,10 +29,17 @@ namespace WebApp.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-
+        public IUnitOfWork UnitOfWork { get; set; }
         public AccountController()
         {
+            
         }
+
+        public AccountController(IUnitOfWork unitOfWork)
+        {
+            UnitOfWork = unitOfWork;
+        }
+
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
@@ -72,6 +83,126 @@ namespace WebApp.Controllers
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
+        }
+        [AllowAnonymous]
+        [Route("GetUser")]
+        public RegisterBindingModel GetUser(string username)
+        {
+            RegisterBindingModel retVal = null;
+            ApplicationUser user = UserManager.FindByName(username);
+            if (user != null)
+            {
+                retVal = new RegisterBindingModel()
+                {
+                    Username = user.UserName,
+                    Firstname = user.Firstname,
+                    Secondname = user.Secondname,
+                    Email = user.Email,
+                    Address = user.Address,
+                    DateOfBirth = user.DateOfBirth,
+                    UserType = user.UserType,
+                    IsVerified = user.IsVerified,
+                    ImgUrl = user.ImgUrl
+                };
+            }
+            return retVal;
+        }
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("EditUser")]
+        public async Task<IHttpActionResult> EditUser(RegisterBindingModel user)
+        {
+            string username = user.OldUsername;
+            if (!user.Username.Equals(username))
+            {
+                ApplicationUser temp = UserManager.FindByName(user.Username);
+                if (temp != null)
+                {
+                    return BadRequest("Username vec postoji!");
+                }
+                else
+                {
+                    ApplicationUser stariUser = UserManager.FindByName(username);
+                    if (stariUser != null)
+                    {
+                        if (stariUser.UserType != user.UserType)
+                        {
+                            user.IsVerified = false;
+                            user.ImgUrl = "";
+                        }
+                    }
+                    temp = new ApplicationUser()
+                    {
+                        Id = user.Username,
+                        UserName = user.Username,
+                        Firstname = user.Firstname,
+                        Secondname = user.Secondname,
+                        Email = user.Email,
+                        Address = user.Address,
+                        DateOfBirth = user.DateOfBirth,
+                        UserType = user.UserType,
+                        IsVerified = user.IsVerified,
+                        ImgUrl = user.ImgUrl,
+                        PasswordHash = stariUser.PasswordHash
+                    };
+
+                    IdentityResult result = await UserManager.DeleteAsync(stariUser);
+
+                    IdentityResult result2 = await UserManager.CreateAsync(temp);
+                    UserManager.AddToRole(user.Username, "AppUser");
+
+                    UnitOfWork.Complete();
+                    if (!result.Succeeded || !result2.Succeeded)
+                    {
+                        return GetErrorResult(result);
+                    }
+                    return Ok();
+                }
+            }
+            else
+            {
+                ApplicationUser temp = UserManager.FindByName(user.Username);
+                if (temp != null)
+                {
+                    IdentityResult result = await UserManager.DeleteAsync(temp);
+
+                    if (temp.UserType != user.UserType)
+                    {
+                        user.IsVerified = false;
+                        user.ImgUrl = "";
+                    }
+
+                    temp = new ApplicationUser()
+                    {
+                        Id = user.Username,
+                        UserName = user.Username,
+                        Firstname = user.Firstname,
+                        Secondname = user.Secondname,
+                        Email = user.Email,
+                        Address = user.Address,
+                        DateOfBirth = user.DateOfBirth,
+                        UserType = user.UserType,
+                        IsVerified = user.IsVerified,
+                        ImgUrl = user.ImgUrl,
+                        PasswordHash = temp.PasswordHash
+                    };
+
+
+
+                    IdentityResult result2 = await UserManager.CreateAsync(temp);
+                    UserManager.AddToRole(user.Username, "AppUser");
+                    UnitOfWork.Complete();
+
+                    if (!result.Succeeded || !result2.Succeeded)
+                    {
+                        return GetErrorResult(result);
+                    }
+                    return Ok();
+                }
+                return BadRequest("Greska prilikom izmene profila.");
+            }
+
+
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
@@ -133,6 +264,105 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+        [HttpPost]
+        [Route("UploadImage/{username}")]
+        [AllowAnonymous]
+        public IHttpActionResult UploadImage(string username)
+        {
+            var httpRequest = HttpContext.Current.Request;
+
+            try
+            {
+                if (httpRequest.Files.Count > 0)
+                {
+                    foreach (string file in httpRequest.Files)
+                    {
+
+                        ApplicationUser user = UserManager.FindByName(username);
+
+                        if (user == null)
+                        {
+                            return BadRequest("Greska prilikom uploada slike");
+                        }
+
+                        IdentityResult result = UserManager.Delete(user);
+
+                        if (!result.Succeeded)
+                        {
+                            return BadRequest("Greska prilikom uploada slike");
+                        }
+
+                        var postedFile = httpRequest.Files[file];
+                        string fileName = username + "_" + postedFile.FileName;
+                        var filePath = HttpContext.Current.Server.MapPath("~/UploadFile/" + fileName);
+
+
+                        user.ImgUrl = fileName;
+                        user.IsVerified = false;
+
+                        postedFile.SaveAs(filePath);
+                        IdentityResult result2 = UserManager.Create(user);
+                        UnitOfWork.Complete();
+                        if (!result2.Succeeded)
+                        {
+                            return BadRequest("Greska prilikom uploada slike");
+                        }
+                    }
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("DownloadImage/{username}")]
+        public IHttpActionResult DownloadPicture(string username)
+        {
+
+            ApplicationUser user = UserManager.FindByName(username);
+
+            if (user == null)
+            {
+                return BadRequest("User doesn't exists.");
+            }
+
+            if (user.ImgUrl == null)
+            {
+                return BadRequest("Image doesn't exists.");
+            }
+
+
+            var filePath = HttpContext.Current.Server.MapPath("~/UploadFile/" + user.ImgUrl);
+
+            FileInfo fileInfo = new FileInfo(filePath);
+            string type = fileInfo.Extension.Split('.')[1];
+            byte[] data = new byte[fileInfo.Length];
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            using (FileStream fs = fileInfo.OpenRead())
+            {
+                fs.Read(data, 0, data.Length);
+                response.StatusCode = HttpStatusCode.OK;
+                response.Content = new ByteArrayContent(data);
+                response.Content.Headers.ContentLength = data.Length;
+
+            }
+
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/png");
+
+            return Ok(data);
+
+
+        }
+
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
@@ -328,13 +558,36 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() {
+                UserName = model.Username,
+                Email = model.Email,
+                Firstname = model.Firstname,
+                Secondname = model.Secondname,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                UserType = model.UserType,
+                PasswordHash = ApplicationUser.HashPassword(model.Password),
+                ImgUrl = model.ImgUrl,
+                IsVerified = model.IsVerified
+                
+            };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            }
+            else
+            {
+                ApplicationUser currentUser = UserManager.FindByName(user.UserName);
+
+                IdentityResult roleResult = await UserManager.AddToRoleAsync(currentUser.Id, "AppUser");
+                UnitOfWork.Complete();
+                if (!roleResult.Succeeded)
+                {
+                    return GetErrorResult(roleResult);
+                }
             }
 
             return Ok();

@@ -13,6 +13,7 @@ namespace WebApp.Models
         public double Y { get; set; }
 
         public string Adresa { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Linija> Linijas { get; set; }
 

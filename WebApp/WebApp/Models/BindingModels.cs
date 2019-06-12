@@ -46,4 +46,12 @@ namespace WebApp.Models
 
         public MarkerInfo[] Stanice { get; set; }
     }
+    public class KartaBinding
+    {
+        public string Username { get; set; }
+        public float Cena { get; set; }
+        public string VrstaPutnika { get; set; }
+        public string TipKarte { get; set; }
+        public string Email { get; set; }
+    }
 }

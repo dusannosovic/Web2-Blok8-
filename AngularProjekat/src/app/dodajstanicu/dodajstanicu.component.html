@@ -1,3 +1,5 @@
+<div class="container">
+  <div class = "col-8">
 <p>
   <!-- Kreiramo mapu -->
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="12" (mapClick)="placeMarker($event)">  
@@ -19,15 +21,19 @@
   </agm-map>
 </p>
 <form [formGroup]="StationForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
   <label class="label">
-      Ime stanice
-      <input type="text" formControlName="stationName" required>
-  </label>
-  <label class="label">
-      Adresa
-      <input type = "text" formControlName="stationAddres" required>
-  </label>
+      Ime stanice </label>
+      <input type="text" class="form-control" formControlName="stationName" required>
+  </div>
+  <div class="form-group">
+  <label class="label"> 
+      Adresa</label>
+      <input type = "text" class ="form-control"formControlName="stationAddres" required>
+</div>
 </form>
 <p>
-  <button (click) = "addStanicu()" class="btn btn-primary" [disabled]="!StationForm.valid">Dodaj stanicu</button>
+  <button (click) = "addStanicu()" class="btn btn-primary">Dodaj stanicu</button>
 </p>
+</div>
+</div>

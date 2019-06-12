@@ -279,6 +279,26 @@
     <Compile Include="Migrations\201906051850368_UpdateModel2.Designer.cs">
       <DependentUpon>201906051850368_UpdateModel2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906101653513_updatemodel3user.cs" />
+    <Compile Include="Migrations\201906101653513_updatemodel3user.Designer.cs">
+      <DependentUpon>201906101653513_updatemodel3user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906101726492_modelupdate4logbrisanje.cs" />
+    <Compile Include="Migrations\201906101726492_modelupdate4logbrisanje.Designer.cs">
+      <DependentUpon>201906101726492_modelupdate4logbrisanje.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111452558_updatemodel4.cs" />
+    <Compile Include="Migrations\201906111452558_updatemodel4.Designer.cs">
+      <DependentUpon>201906111452558_updatemodel4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111900188_updatemodelKarta.cs" />
+    <Compile Include="Migrations\201906111900188_updatemodelKarta.Designer.cs">
+      <DependentUpon>201906111900188_updatemodelKarta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906112242068_updatemodelKarta2.cs" />
+    <Compile Include="Migrations\201906112242068_updatemodelKarta2.Designer.cs">
+      <DependentUpon>201906112242068_updatemodelKarta2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -383,6 +403,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadFile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -425,6 +446,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906051850368_UpdateModel2.resx">
       <DependentUpon>201906051850368_UpdateModel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101653513_updatemodel3user.resx">
+      <DependentUpon>201906101653513_updatemodel3user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101726492_modelupdate4logbrisanje.resx">
+      <DependentUpon>201906101726492_modelupdate4logbrisanje.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111452558_updatemodel4.resx">
+      <DependentUpon>201906111452558_updatemodel4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111900188_updatemodelKarta.resx">
+      <DependentUpon>201906111900188_updatemodelKarta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906112242068_updatemodelKarta2.resx">
+      <DependentUpon>201906112242068_updatemodelKarta2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -26,12 +26,12 @@ export class LinijaService{
     private stanicaotherUrl ='http://localhost:52295/api/getstanicaother'
     private updateLinijaUrl = 'http://localhost:52295/api/updatelinija'
     private updateStanicaUrl = 'http://localhost:52295/api/updatestanica'
+    private kartaUrl = 'http://localhost:52295/api/Karta'
 
 
     constructor(private http: HttpClient){}
 
     /** GET heroes from the server */
-
     getLinijas(): Observable<Linija[]>{
         return this.http.get<Linija[]>(this.linijasUrl).pipe(
         //   catchError(this.handleError<Linija[]>('getLinijas',[]))  
@@ -74,7 +74,6 @@ export class LinijaService{
     getStanica(): Observable<MarkerInfo[]>{
         return this.http.get<MarkerInfo[]>(this.stanicaUrl).pipe(catchError(this.handleError<MarkerInfo[]>('getStanica')));
     }
-    
     addLinija(linija: LinijaPolazak): Observable<LinijaPolazak> {
         console.log(linija);
         return this.http.post<LinijaPolazak>(this.linijasUrl, linija, httpOptions).pipe(
@@ -104,6 +103,15 @@ export class LinijaService{
             catchError(this.handleError<MarkerInfo>('UpdateLinija'))
           );
       }
+      putKarta(value:string): Observable<string>{
+        return this.http.get<string>(`${this.kartaUrl}?value=${value}`)
+        .pipe(
+          //catchError(this.handleError('Post', ))
+        );
+    }
+        deleteLinija(value:string){
+            this.http.delete(`${this.linijasUrl}?id=${value}`).subscribe()
+        }
     // private handleError<T> (operation = 'operation', result?: T) {
     //     return (error: any): Observable<T> => {
     //       return of(result as T);

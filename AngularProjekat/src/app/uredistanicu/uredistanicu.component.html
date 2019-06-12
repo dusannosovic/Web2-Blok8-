@@ -1,3 +1,5 @@
+<div class="container">
+  <div class="col-8">
 <form [formGroup]="stanicaForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label> Naziv stanice: </label>
@@ -28,17 +30,20 @@
 <form [formGroup]="stanicaadrnazForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
   <label>
-    Ime stanice:
+    Ime stanice: </label>
     <input type="text" class= "form-control"formControlName="imeStanice" required>
-  </label>
   </div>
   <div class="form-group">
     <label>
-      Adresa:
+      Adresa: </label>
       <input type="text" class= "form-control"formControlName="adresaStanice" required>
-    </label>
     </div>
 </form>
 <p>
-  <button (click) = "updateStanica()" class="btn btn-primary" [disabled]="!stanicaForm.valid">Sacuvaj</button>
+  <button (click) = "updateStanica()" class="btn btn-primary btn-lg btn-block" [disabled]="!markerInfo">Promeni stanicu</button>
 </p>
+<p>
+  <button (click) = "deleteStanica()" class="btn btn-primary btn-lg btn-block" [disabled]="!markerInfo">Izbrisi stanicu</button>
+</p>
+</div>
+</div>

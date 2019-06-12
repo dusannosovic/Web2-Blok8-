@@ -21,13 +21,16 @@ namespace WebApp.Controllers
             _unitOfWork = unitOfWork;
             _context = context;
         }
-        // GET: api/Linija
+            // GET: api/Linija
         public IEnumerable<LinijaBinding> GetLinijas()
         {
             List<LinijaBinding> linijas = new List<LinijaBinding>();
             foreach (Linija lin in _unitOfWork.Linijas.GetAll())
             {
-                linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+                if (!lin.IsDelete)
+                {
+                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+                }
             }
             //return _unitOfWork.Linijas.GetAll();
             return linijas.AsEnumerable();
@@ -41,7 +44,7 @@ namespace WebApp.Controllers
             List<LinijaBinding> linijas = new List<LinijaBinding>();
             foreach (Linija lin in _unitOfWork.Linijas.GetAll())
             {
-                if(lin.TipLinije.ToString() == linija)
+                if(lin.TipLinije.ToString() == linija && !lin.IsDelete)
                     linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
             }
             //return _unitOfWork.Linijas.GetAll();
@@ -51,9 +54,21 @@ namespace WebApp.Controllers
         // POST: api/Linija
         public IHttpActionResult PostLinija(LinijaPolasciBinding linijaas)
         {
-            var req = HttpContext.Current.Request;
+            bool check = false;
+            //var req = HttpContext.Current.Request;
+            Linija linija;
+            if (_unitOfWork.Linijas.GetAll().Select(l => l.OznakaLinije).Contains(linijaas.Linija.OznakaLinije) && _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije).IsDelete)
+            {
+                linija = _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije);
+                linija.IsDelete = false;
+                linija.TipLinije = linijaas.Linija.TipLinije;
+                check = true;
+            }
+            else
+            {
+                linija = new Linija() { OznakaLinije = linijaas.Linija.OznakaLinije, TipLinije = linijaas.Linija.TipLinije, IsDelete = false };
+            }
 
-            Linija linija = new Linija() { OznakaLinije = linijaas.Linija.OznakaLinije, TipLinije = linijaas.Linija.TipLinije };
             List<Polasci> listp = new List<Polasci>();
             List<Stanica> lists = new List<Stanica>();
             foreach (PolazakBinding polazak in linijaas.Polasci)
@@ -84,7 +99,9 @@ namespace WebApp.Controllers
             }
             linija.Polascis = listp;
             linija.Stanicas = lists;
-            _unitOfWork.Linijas.Add(linija);
+            if (!check) {
+                _unitOfWork.Linijas.Add(linija);
+            }
             _unitOfWork.Complete();
             return CreatedAtRoute("DefaultApi", new { id = linija.OznakaLinije }, linija);
         }
@@ -133,8 +150,15 @@ namespace WebApp.Controllers
         }
 
         // DELETE: api/Linija/5
-        public void Delete(int id)
+        [HttpDelete]
+        public void Delete(string id)
         {
+            Linija linija = _unitOfWork.Linijas.GetAll().Single(sta => sta.OznakaLinije == id);
+            linija.IsDelete = true;
+            linija.Polascis.Clear();
+            linija.Stanicas.Clear();
+            
+            _unitOfWork.Complete();
         }
     }
 }

@@ -15,13 +15,12 @@ export class RedVoznjeComponent implements OnInit {
   linije: Linija[];
   polasci: Polazak[];
   polazak: Polazak[];
-  selectedDay: string = '';
+  linija : string;
   tipLinije = ['Gradska','Prigradska'];
   radniDan=['RadniDan', 'Subota','Nedelja'];
   tipLinijeForm = this.fb.group({
     tipLin:[this.tipLinije[0], Validators.required],
     dan:[this.radniDan[0],Validators.required]
-  
   });
   constructor(private fb: FormBuilder, private linijaService: LinijaService) { }
 
@@ -33,26 +32,28 @@ export class RedVoznjeComponent implements OnInit {
     this.linijaService.getLinijas()
     .subscribe(linijas => this.linije = linijas);
     this.polasci =[]
+    this.linija = null 
   }
   getLinijaTip(){
     this.linijaService.getLinijaTip(this.tipLinijeForm.get('tipLin').value)
     .subscribe(linijas => this.linije = linijas)
     this.polasci = []
+    this.linija = null
   }
-  getPolazak(){
-    this.linijaService.getPolazak(this.selectedDay,this.tipLinijeForm.get('dan').value).subscribe(polazaks => this.polasci = polazaks)
+  getPolazak(lin: string){
+    this.linijaService.getPolazak(lin,this.tipLinijeForm.get('dan').value).subscribe(polazaks => this.polasci = polazaks)
+    this.linija = lin;
   }
   getPolazaksdan(){
     this.polasci = []
-  }
-  selectChangeHandler (event: any) {
-    //update the ui
-    this.selectedDay = event.target.value;
   }
 
 
 
   onSubmit() {
     console.warn(this.tipLinijeForm.value);
+  }
+  onsubmit(){
+    
   }
 }

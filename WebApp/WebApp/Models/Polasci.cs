@@ -12,9 +12,8 @@ namespace WebApp.Models
         public int Id { get; set; }
         public Dan Dan { get; set; }
         public TimeSpan VremePolaska { get; set; }
-        //[ForeignKey("Linija")]
-        //public Linija Linija { get; set; }
-        //public int Peron { get; set; }
+        
+        public bool IsDeleted { get; set; }
         public virtual ICollection<Linija> Linijas { get; set; }
     }
 }

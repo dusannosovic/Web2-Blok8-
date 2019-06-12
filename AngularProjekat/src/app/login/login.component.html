@@ -1,0 +1,24 @@
+<div class="container">
+
+    <div class="col-5">
+      <h3>Log In</h3>
+      <hr>
+      <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label for="email">Username</label>
+          <input type="text" name="username" class="form-control" id="username" formControlName="username" autocomplete="off" placeholder="Enter username" required>
+          <span class="invalid-input" *ngIf="!f.username.valid && f.username.touched"> Please enter a username. </span>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" formControlName="password" class="form-control" id="password" placeholder="Password" required>
+          <span class="invalid-input" *ngIf="!f.password.valid && f.password.touched"> Please enter a password. </span> 
+        </div>  
+        <hr>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="onLogin()" [disabled]="loginForm.invalid">
+          Login
+        </button>
+      </form>
+    </div>
+  
+  </div>

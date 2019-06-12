@@ -21,8 +21,8 @@ export class DodajstanicuComponent implements OnInit {
   public zoom: number;
   url : any = {url:"assets/busicon.png", scaledSize: {width:50,height:50}};
   StationForm = this.fb.group({
-    stationName:['', Validators.required],
-    stationAddres:['', Validators.required]
+    stationName:[''],
+    stationAddres:['']
   })
   
 

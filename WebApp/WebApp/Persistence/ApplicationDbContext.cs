@@ -29,6 +29,7 @@ namespace WebApp.Persistence
 
         public DbSet<Vozilo> Vozilos { get; set; }
         public DbSet<VrstaPutnika> VrstaPutnikas { get; set; }
+    
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

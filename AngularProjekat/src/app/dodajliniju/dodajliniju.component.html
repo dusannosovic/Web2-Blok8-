@@ -1,3 +1,4 @@
+<div class="container">
 <form [formGroup]="linijaForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
   <label>
@@ -13,18 +14,19 @@
     </select>
   </div>
 </form>
-<label class="label label-default"> Polasci </label>
+<label class="label label-default" *ngIf="polazak !== null"> Polasci </label>
 <ul class="list-group">
   <li *ngFor="let lin of polazak" class="list-group-item" (click)="deletePolazak(lin)" >
     <span>Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
   </li>
 </ul>
-<label class="label label-default"> Stanice </label>
+<label class="label label-default" *ngIf="stanicalist !== null"> Stanice </label>
 <ul class="list-group">
   <li *ngFor="let st of stanicalist" class="list-group-item" (click)="deleteStanica(st)" >
     <span>Adresa stanice:  {{st.label}}</span>   Naziv stanice:  {{st.title}}
   </li>
 </ul>
 <p>
-  <button (click) = "dodajLiniju()" class="btn btn-primary" [disabled]="!linijaForm.valid">Dodaj Liniju</button>
+  <button (click) = "dodajLiniju()" class="btn btn-primary">Dodaj Liniju</button>
 </p>
+</div>

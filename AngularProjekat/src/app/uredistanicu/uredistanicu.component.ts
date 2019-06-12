@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MarkerInfo } from '../dodajstanicu/model/marker-info.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { LinijaService } from '../linija.service';
 import { Polyline } from '../dodajstanicu/model/polyline';
+import { StanicaService } from '../Services/stanica.service';
 
 @Component({
   selector: 'app-uredistanicu',
@@ -16,11 +17,11 @@ export class UredistanicuComponent implements OnInit {
   public polyline: Polyline;
   url : any = {url:"assets/busicon.png", scaledSize: {width:50,height:50}};
   stanicaForm = this.fb.group({
-    stanica:['', Validators.required]
+    stanica:['']
   })
   longitude = 19.842954;
   latitude= 45.242268;
-  constructor(private fb: FormBuilder, private linijaService: LinijaService) { }
+  constructor(private fb: FormBuilder, private linijaService: LinijaService, private stanicaService: StanicaService) { }
   stanicaadrnazForm = this.fb.group({
     imeStanice:[''],
     adresaStanice:['']
@@ -49,5 +50,10 @@ export class UredistanicuComponent implements OnInit {
     this.markerInfo.title = this.stanicaadrnazForm.get('imeStanice').value;
     this.markerInfo.label = this.stanicaadrnazForm.get('adresaStanice').value;
     this.linijaService.updateStanica(this.markerInfo).subscribe();
+    location.reload()
+  }
+  deleteStanica(){
+      this.stanicaService.deleteStanica(this.markerInfo.id);
+      location.reload();
   }
 }

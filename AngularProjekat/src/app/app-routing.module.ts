@@ -9,6 +9,12 @@ import { UredilinijuComponent } from './urediliniju/urediliniju.component';
 import { DodajstanicuComponent } from './dodajstanicu/dodajstanicu.component';
 import { UredistanicuComponent } from './uredistanicu/uredistanicu.component';
 import { DodajpolazakComponent } from './dodajpolazak/dodajpolazak.component';
+import { KupikartuComponent } from './kupikartu/kupikartu.component';
+import { LoginComponent } from './login/login.component';
+import { RegistracijaComponent } from './registracija/registracija.component';
+import { KarteprikazComponent } from './karteprikaz/karteprikaz.component';
+import { EditprofileComponent } from './editprofile/editprofile.component';
+import { ChangpassComponent } from './changpass/changpass.component';
 
 const routes: Routes = [
   {
@@ -27,6 +33,30 @@ const routes: Routes = [
   {
     path: 'maplines',
     component: MaplinesComponent
+  },
+  {
+    path:'editprofile',
+    component: EditprofileComponent
+  },
+  {
+    path:'changpass',
+    component: ChangpassComponent
+  },
+  {
+    path: 'kupiKartu/:tip/:popust/:cena',
+    component: KupikartuComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'karteprikaz',
+    component: KarteprikazComponent
+  },
+  {
+    path: 'registracija',
+    component: RegistracijaComponent
   },
   {
     path: 'logreg',
