@@ -124,7 +124,7 @@ namespace WebApp.Controllers
             return retVal;
         }
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "AppUser")]
         [Route("EditUser")]
         public async Task<IHttpActionResult> EditUser(RegisterBindingModel user)
         {
@@ -197,20 +197,19 @@ namespace WebApp.Controllers
                         user.ImgUrl = "";
                     }
 
-                    temp = new ApplicationUser()
-                    {
-                        Id = user.Username,
-                        UserName = user.Username,
-                        Firstname = user.Firstname,
-                        Secondname = user.Secondname,
-                        Email = user.Email,
-                        Address = user.Address,
-                        DateOfBirth = user.DateOfBirth,
-                        UserType = user.UserType,
-                        IsVerified = user.IsVerified,
-                        ImgUrl = user.ImgUrl,
-                        PasswordHash = temp.PasswordHash
-                    };
+
+                    temp.Id = user.Username;
+                    temp.UserName = user.Username;
+                    temp.Firstname = user.Firstname;
+                    temp.Secondname = user.Secondname;
+                    temp.Email = user.Email;
+                    temp.Address = user.Address;
+                    temp.DateOfBirth = user.DateOfBirth;
+                    temp.UserType = user.UserType;
+                    temp.IsVerified = user.IsVerified;
+                    temp.ImgUrl = user.ImgUrl;
+                    temp.PasswordHash = temp.PasswordHash;
+                    
 
 
 
@@ -574,7 +573,7 @@ namespace WebApp.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "AppUser")]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {

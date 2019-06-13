@@ -93,7 +93,7 @@
           <div class="form-group">
               <div class=row>      
                   <div *ngIf="registerForm.get('type').value != 'Regular'" class="form-group row">
-                      <input type="file" (change)="onFileSelected($event)" />
+                      <input type="file" (change)="onFileSelected($event)"/>
                       <img *ngIf="selFileSrc!=undefined && selFileSrc!=null" [src]="mySrc"
                       style="max-width: 200px; max-height: 200px;" class="btn-md img-fluid img-thumbnail">
                       

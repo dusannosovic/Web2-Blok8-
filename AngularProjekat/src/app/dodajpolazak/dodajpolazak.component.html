@@ -1,16 +1,10 @@
+<div class="container">
 <form [formGroup]="polazakForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
   <label>
     Sati:
-    <input type="text" class= "form-control"formControlName="sati" required placeholder="Uneti casove 24h format">
+    <input type="time" class= "form-control"formControlName="sati" required placeholder="Uneti casove 24h format">
   </label>
-  </div>
-
-  <div class="form-group">
-    <label>
-      Minuti
-      <input type="text" class= "form-control"formControlName="minuti" required placeholder="Uneti minute">
-    </label>
   </div>
   <div class="form-group">
     <label> Dan u nedelji </label>
@@ -21,5 +15,6 @@
 </div>
 </form>
 <p>
-  <button (click) = "dodajPolazak()" class="btn btn-primary">Dodaj Liniju</button>
+  <button (click) = "dodajPolazak()" class="btn btn-primary">Dodaj Polazak</button>
 </p>
+</div>

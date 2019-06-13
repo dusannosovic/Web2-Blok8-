@@ -17,7 +17,7 @@
 <label class="label label-default" *ngIf="polazak !== null"> Polasci </label>
 <ul class="list-group">
   <li *ngFor="let lin of polazak" class="list-group-item" (click)="deletePolazak(lin)" >
-    <span>Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+    <span>Vreme polaska  {{lin.VremePolaska}}</span> <br> <label *ngIf="lin.Dan == 0">Radni dan</label> <label *ngIf="lin.Dan == 1">Subota</label><label *ngIf="lin.Dan == 2">Nedelja</label>
   </li>
 </ul>
 <label class="label label-default" *ngIf="stanicalist !== null"> Stanice </label>

@@ -258,8 +258,6 @@
     <Compile Include="Controllers\StanicaController.cs" />
     <Compile Include="Controllers\StavkaController.cs" />
     <Compile Include="Controllers\TipKarteController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\VrstaPutnikaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

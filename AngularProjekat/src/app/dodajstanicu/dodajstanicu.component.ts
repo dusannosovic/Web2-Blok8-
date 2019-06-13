@@ -21,8 +21,8 @@ export class DodajstanicuComponent implements OnInit {
   public zoom: number;
   url : any = {url:"assets/busicon.png", scaledSize: {width:50,height:50}};
   StationForm = this.fb.group({
-    stationName:[''],
-    stationAddres:['']
+    stationName:['',Validators.required],
+    stationAddres:['',Validators.required]
   })
   
 
@@ -50,6 +50,7 @@ export class DodajstanicuComponent implements OnInit {
       this.markerInfo.title = this.StationForm.get('stationName').value;
       this.markerInfo.label = this.StationForm.get('stationAddres').value;
       this.linijaService.addStanica(this.markerInfo).subscribe();
+      location.reload()
     }
   }
 }

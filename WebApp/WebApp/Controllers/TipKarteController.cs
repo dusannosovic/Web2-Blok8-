@@ -31,6 +31,7 @@ namespace WebApp.Controllers
             return list.AsEnumerable();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult EditKarta(TipKarteBinding[] tipKartes)
         {
             //var req = HttpContext.Current.Request;

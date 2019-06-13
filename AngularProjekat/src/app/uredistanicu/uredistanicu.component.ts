@@ -29,7 +29,7 @@ export class UredistanicuComponent implements OnInit {
 
   ngOnInit() {
     this.getStanicu()
-    this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
+    this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}})
   }
   placeMarker($event){
     /*this.polyline.addLocation(new GeoLocation($event.coords.lat, $event.coords.lng))
@@ -50,7 +50,7 @@ export class UredistanicuComponent implements OnInit {
     this.markerInfo.title = this.stanicaadrnazForm.get('imeStanice').value;
     this.markerInfo.label = this.stanicaadrnazForm.get('adresaStanice').value;
     this.linijaService.updateStanica(this.markerInfo).subscribe();
-    location.reload()
+
   }
   deleteStanica(){
       this.stanicaService.deleteStanica(this.markerInfo.id);

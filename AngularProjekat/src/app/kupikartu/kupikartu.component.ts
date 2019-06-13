@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KartaService } from '../Services/karta.service';
 import { LinijaService } from '../linija.service';
 import { KartaModel } from '../models/kartaModel';
@@ -19,7 +19,7 @@ export class KupikartuComponent implements OnInit {
     karta: [''],
 
   })
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,  private kartaService: KartaService) { }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute,  private kartaService: KartaService, private router: Router) { }
 
   ngOnInit() {
     this.getInfo();
@@ -37,6 +37,7 @@ export class KupikartuComponent implements OnInit {
     this.karta.Cena  = this.cena;
     this.karta.Email = this.kartaForm.get('karta').value;
     this.kartaService.putKarta(this.karta).subscribe();
+    this.router.navigate(['cenovnik'])
   }
   kupiKartuLog(){
     this.karta = new KartaModel()
@@ -45,5 +46,6 @@ export class KupikartuComponent implements OnInit {
     this.karta.Cena  = this.cena;
     this.karta.Username = localStorage.getItem('userId')
     this.kartaService.putKarta(this.karta).subscribe();
+    this.router.navigate(['cenovnik'])
   }
 }

@@ -55,7 +55,11 @@ export class LoginService{
 
             this.authService.logIn(data);
             this.notificationService.sessionEvent.emit(true);
-            this.router.navigate(['karteprikaz']);
+            if(localStorage.getItem('role') == 'AppUser'){
+                this.router.navigate(['karteprikaz']);
+            }
+            if(localStorage.getItem('role') == 'Admin')
+                this.router.navigate(['logreg/dodajliniju'])
             },
             (error) => {
                 this.notificationService.notifyEvent.emit('An error ocurred while trying to log in. The server is probably down.');

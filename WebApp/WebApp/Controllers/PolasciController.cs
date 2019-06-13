@@ -77,12 +77,12 @@ namespace WebApp.Controllers
         {
             return "value";
         }*/
-
+        [Authorize(Roles = "Admin")]
         // POST: api/Polasci
         public IHttpActionResult PostPolasci(PolazakBinding polazak)
         {
             //var req = HttpContext.Current.Request;
-            string[] vreme = polazak.VremePolaska.Split('_');
+            string[] vreme = polazak.VremePolaska.Split(':');
             Polasci polasci = new Polasci() { Dan = polazak.Dan, VremePolaska = new  TimeSpan(int.Parse(vreme[0]),int.Parse(vreme[1]),00), };
             if (!ModelState.IsValid)
             {

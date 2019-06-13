@@ -42,6 +42,7 @@ namespace WebApp.Controllers
             return kartas.AsEnumerable();
         }
         [Route("api/Karta")]
+        [Authorize(Roles = "AppUser")]
         [HttpPost]
         public IHttpActionResult PostKarta(KartaBinding karta)
         {

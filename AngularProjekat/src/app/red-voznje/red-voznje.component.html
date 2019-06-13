@@ -1,3 +1,4 @@
+<div class="container">
 <div class="col-5"> 
 <form [formGroup]="tipLinijeForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
@@ -15,15 +16,17 @@
   
   </div>
 </form>
-</div>
+
 <ul class="list-group">
   <li *ngFor="let lin of linije" class="list-group-item"  (click)="getPolazak(lin.OznakaLinije)">
-    <span> Broj:  {{lin.OznakaLinije}}</span>   TipLinije  {{lin.TipLinije}}
+    <span> Broj:  {{lin.OznakaLinije}}</span> 
   </li>
 </ul>
 <ul class="list-group">
   <label *ngIf="linija !== null"> Polasci linije  {{linija}}</label>
   <li *ngFor="let lin of polasci" class="list-group-item" >
-    <span> Dan:  {{lin.Dan}}</span>   Vreme polaska  {{lin.VremePolaska}}
+    <span>    Vreme polaska  {{lin.VremePolaska}}</span>
   </li>
 </ul>
+</div>
+</div>

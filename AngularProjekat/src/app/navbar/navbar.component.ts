@@ -3,6 +3,7 @@ import { NotifyService } from '../Services/notify.service';
 import { AuthService } from '../Services/auth.service';
 import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
+import {Title} from '@angular/platform-browser'
 
 @Component({
   selector: 'app-navbar',
@@ -12,10 +13,12 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   IsLoggedIn: boolean;
   IsAdmin: boolean;
-  constructor(private notifyService: NotifyService, private authService: AuthService, private loginService: LoginService, private router: Router) { }
+  title = 'Autobusi';
+  constructor(private notifyService: NotifyService, private authService: AuthService, private loginService: LoginService, private router: Router, private titleService: Title) { }
 
   ngOnInit() {
     this.loadData()
+    this.titleService.setTitle(this.title);
   }
   LogOut() : void{
     if(this.authService.isLoggedIn())

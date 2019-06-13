@@ -14,21 +14,26 @@ export class EditprofileComponent implements OnInit {
 
   novaSlika: boolean = false;
   mySrc : string;
+  user:Korisnik = new Korisnik();
+  editedUser: Korisnik
+  oldUsername : string;
+  date:string;
+  selFile: File = null;
 
   editForm = this.fb.group({
-    name: [Validators.required],
-    surname: [Validators.required],
+    firstname: [Validators.required],
+    secondname: [Validators.required],
     address: [Validators.required],
     dateOfBirth: [Validators.required],
     type: [Validators.required],
-    username: [[Validators.required, Validators.minLength(6)]],
-    email: [[Validators.email]],
+    username: [Validators.required, Validators.minLength(6)],
+    email: [Validators.email],
     imgUrl: [],
     
   });
-  selectedFile: File = null;
+
   onFileSelected(event) {
-    this.selectedFile = <File>event.target.files[0];
+    this.selFile = <File>event.target.files[0];
   }
   NovaSlika(event)
   {
@@ -36,10 +41,7 @@ export class EditprofileComponent implements OnInit {
   }
     get f() { return this.editForm.controls; }
 
-  user:Korisnik = new Korisnik();
-  editedUser: Korisnik
-  oldUsername : string;
-  date:string;
+
 
   constructor(private fb : FormBuilder, private userService : UserService, private authService : AuthService,
     private router: Router) { }
@@ -49,8 +51,8 @@ export class EditprofileComponent implements OnInit {
       user => {
         this.user = user;
         this.editForm.setValue({
-          name : this.user.Firstname,
-          surname: this.user.Secondname,
+          firstname : this.user.Firstname,
+          secondname: this.user.Secondname,
           address: this.user.Address,
           dateOfBirth: this.user.DateOfBirth,
           type: this.user.UserType,
@@ -78,8 +80,8 @@ export class EditprofileComponent implements OnInit {
     this.editedUser = new Korisnik();
     
       this.editedUser.Username = this.editForm.get('username').value;
-      this.editedUser.Firstname = this.editForm.get('name').value;
-      this.editedUser.Secondname = this.editForm.get('surname').value;
+      this.editedUser.Firstname = this.editForm.get('firstname').value;
+      this.editedUser.Secondname = this.editForm.get('secondname').value;
       this.editedUser.Email = this.editForm.get('email').value;
       this.editedUser.Address = this.editForm.get('address').value;
       this.editedUser.DateOfBirth = this.editForm.get('dateOfBirth').value;
@@ -92,10 +94,10 @@ export class EditprofileComponent implements OnInit {
     if(this.authService.isLoggedIn()){
       this.userService.editProfile(this.editedUser).subscribe(
         (response) => {
-          if(this.selectedFile != null && this.novaSlika)
+          if(this.selFile != null && this.novaSlika)
           {
             let formData: FormData = new FormData();
-            formData.append('image', this.selectedFile, this.selectedFile.name);
+            formData.append('image', this.selFile, this.selFile.name);
             this.userService.uploadImage(formData, this.oldUsername).subscribe(
               data =>  { }
             )

@@ -12,8 +12,7 @@
   <!-- Kreiramo mapu -->
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="12" (mapClick)="placeMarker($event)">  
 
-    <agm-marker *ngIf="markerInfo != null" [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
-    [label]="markerInfo.label" [iconUrl]="url">
+    <agm-marker *ngIf="markerInfo != null" [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title" [iconUrl]="url">
 
       <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
     </agm-marker>

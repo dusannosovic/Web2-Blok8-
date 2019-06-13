@@ -15,7 +15,6 @@ export class DodajpolazakComponent implements OnInit {
   radniDan=['RadniDan','Subota','Nedelja']
   polazakForm = this.fb.group({
     sati:[''],
-    minuti:[''],
     dan:[this.radniDan[0],Validators.required]
   })
   constructor(private fb: FormBuilder, private linijaService:LinijaService) { }
@@ -24,7 +23,7 @@ export class DodajpolazakComponent implements OnInit {
   }
   dodajPolazak(){
     this.polazak = new Polazak();
-    this.polazak.VremePolaska = this.polazakForm.get('sati').value + '_' + this.polazakForm.get('minuti').value
+    this.polazak.VremePolaska = this.polazakForm.get('sati').value
     console.log(this.polazak.VremePolaska);
     switch (this.polazakForm.get('dan').value) {
       case 'RadniDan':

@@ -40,11 +40,13 @@ export class UserService{
 
    uploadImage(data: any, username: string) : Observable<any> {
      
-    return this.http.post(this.UploadImageUrl + username, data).pipe(catchError(this.handleError<any>('UploadImage')));
+    //return this.http.post(this.UploadImageUrl + username, data).pipe(catchError(this.handleError<any>('UploadImage')));
+    return null;
    }
 
    downloadImage(username: string) : Observable<any>{
-    return this.http.get(this.DownloadImageUrl + username).pipe(catchError(this.handleError<any>('DownloadImage')));
+    //return this.http.get(this.DownloadImageUrl + username).pipe(catchError(this.handleError<any>('DownloadImage')));
+    return null;
    }
    
    private handleError<T> (operation = 'operation', result?: T) {

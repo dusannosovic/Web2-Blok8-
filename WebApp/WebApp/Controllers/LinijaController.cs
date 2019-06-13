@@ -52,60 +52,69 @@ namespace WebApp.Controllers
         }
 
         // POST: api/Linija
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult PostLinija(LinijaPolasciBinding linijaas)
         {
             bool check = false;
             //var req = HttpContext.Current.Request;
-            Linija linija;
-            if (_unitOfWork.Linijas.GetAll().Select(l => l.OznakaLinije).Contains(linijaas.Linija.OznakaLinije) && _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije).IsDelete)
-            {
-                linija = _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije);
-                linija.IsDelete = false;
-                linija.TipLinije = linijaas.Linija.TipLinije;
-                check = true;
+            if (!(_unitOfWork.Linijas.GetAll().Select(l => l.OznakaLinije).Contains(linijaas.Linija.OznakaLinije) && !_unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije).IsDelete)) {
+                Linija linija;
+                if (_unitOfWork.Linijas.GetAll().Select(l => l.OznakaLinije).Contains(linijaas.Linija.OznakaLinije) && _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije).IsDelete)
+                {
+                    linija = _unitOfWork.Linijas.GetAll().Single(l => l.OznakaLinije == linijaas.Linija.OznakaLinije);
+                    linija.IsDelete = false;
+                    linija.TipLinije = linijaas.Linija.TipLinije;
+                    check = true;
+                }
+                else
+                {
+                    linija = new Linija() { OznakaLinije = linijaas.Linija.OznakaLinije, TipLinije = linijaas.Linija.TipLinije, IsDelete = false };
+                }
+
+                List<Polasci> listp = new List<Polasci>();
+                List<Stanica> lists = new List<Stanica>();
+                foreach (PolazakBinding polazak in linijaas.Polasci)
+                {
+                    foreach (Polasci pol in _unitOfWork.Polascis.GetAll())
+                    {
+                        if (pol.Id == polazak.Id)
+                        {
+                            listp.Add(pol);
+                        }
+                    }
+                }
+                foreach (MarkerInfo stanica in linijaas.Stanice)
+                {
+                    foreach (Stanica st in _unitOfWork.Stanicas.GetAll())
+                    {
+                        if (st.Id == stanica.id)
+                        {
+                            lists.Add(st);
+                        }
+                    }
+                }
+
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                linija.Polascis = listp;
+                linija.Stanicas = lists;
+                if (!check) {
+                    _unitOfWork.Linijas.Add(linija);
+                }
+                _unitOfWork.Complete();
+                return CreatedAtRoute("DefaultApi", new { id = linija.OznakaLinije }, linija);
             }
             else
             {
-                linija = new Linija() { OznakaLinije = linijaas.Linija.OznakaLinije, TipLinije = linijaas.Linija.TipLinije, IsDelete = false };
+                return BadRequest("");
             }
-
-            List<Polasci> listp = new List<Polasci>();
-            List<Stanica> lists = new List<Stanica>();
-            foreach (PolazakBinding polazak in linijaas.Polasci)
-            {
-                foreach (Polasci pol in _unitOfWork.Polascis.GetAll())
-                {
-                    if (pol.Id == polazak.Id)
-                    {
-                        listp.Add(pol);
-                    }
-                }
-            }
-            foreach (MarkerInfo stanica in linijaas.Stanice)
-            {
-                foreach (Stanica st in _unitOfWork.Stanicas.GetAll())
-                {
-                    if (st.Id == stanica.id)
-                    {
-                        lists.Add(st);
-                    }
-                }
-            }
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            linija.Polascis = listp;
-            linija.Stanicas = lists;
-            if (!check) {
-                _unitOfWork.Linijas.Add(linija);
-            }
-            _unitOfWork.Complete();
-            return CreatedAtRoute("DefaultApi", new { id = linija.OznakaLinije }, linija);
         }
+
         [Route("api/updatelinija")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IHttpActionResult UpdateLinija(LinijaPolasciBinding linijaas)
         {
@@ -151,6 +160,7 @@ namespace WebApp.Controllers
 
         // DELETE: api/Linija/5
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public void Delete(string id)
         {
             Linija linija = _unitOfWork.Linijas.GetAll().Single(sta => sta.OznakaLinije == id);

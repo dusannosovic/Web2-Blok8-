@@ -26,6 +26,7 @@ export class LinijaService{
     private stanicaotherUrl ='http://localhost:52295/api/getstanicaother'
     private updateLinijaUrl = 'http://localhost:52295/api/updatelinija'
     private updateStanicaUrl = 'http://localhost:52295/api/updatestanica'
+    private addStanicaUrl = 'http://localhost:52295/api/addstanica'
     private kartaUrl = 'http://localhost:52295/api/Karta'
 
 
@@ -88,7 +89,7 @@ export class LinijaService{
       }
       addStanica(stanica: MarkerInfo): Observable<MarkerInfo> {
         console.log(stanica);
-        return this.http.post<MarkerInfo>(this.stanicaUrl, stanica, httpOptions).pipe(
+        return this.http.post<MarkerInfo>(this.addStanicaUrl, stanica, httpOptions).pipe(
             catchError(this.handleError<MarkerInfo>('addStanica'))
           );
       }

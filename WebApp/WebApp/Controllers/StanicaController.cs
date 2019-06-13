@@ -75,9 +75,10 @@ namespace WebApp.Controllers
         {
             return "value";
         }*/
-
+        [Authorize(Roles = "Admin")]
         // POST: api/Stanica
-        public IHttpActionResult PostStanica(MarkerInfo marker)
+        [Route("api/addstanica")]
+        public IHttpActionResult addstanica(MarkerInfo marker)
         {
             //var req = HttpContext.Current.Request;
             var stanica = new Stanica() { Naziv = marker.title, Adresa = marker.label, X = marker.location.latitude,Y = marker.location.longitude, IsDeleted = false };
@@ -90,8 +91,9 @@ namespace WebApp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = stanica. Naziv }, stanica);
         }
         [Route("api/updatestanica")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IHttpActionResult UpdateStanica(MarkerInfo marker)
+        public IHttpActionResult updatestanica(MarkerInfo marker)
         {
             Stanica stanica = _unitOfWork.Stanicas.GetAll().Single(sta => sta.Id == marker.id);
             if(stanica.Naziv != marker.title)
@@ -121,6 +123,7 @@ namespace WebApp.Controllers
 
         // DELETE: api/Stanica/5
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public void Delete(int id)
         {
             Stanica stanica = _unitOfWork.Stanicas.GetAll().Single(sta => sta.Id == id);

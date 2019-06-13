@@ -11,9 +11,6 @@
         <a class="nav-link" routerLink="/cenovnik">Cenovnik</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/maplines">Mapa Linija</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" *ngIf="IsAdmin" routerLink="/logreg/dodajliniju">Administratorski prozor</a>
       </li>
           <li class="nav-item" *ngIf="IsLoggedIn && !IsAdmin">
