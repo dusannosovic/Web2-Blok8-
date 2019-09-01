@@ -13,9 +13,18 @@
       <li class="nav-item">
         <a class="nav-link" *ngIf="IsAdmin" routerLink="/logreg/dodajliniju">Administratorski prozor</a>
       </li>
-          <li class="nav-item" *ngIf="IsLoggedIn && !IsAdmin">
+          <li class="nav-item" *ngIf="IsLoggedIn && IsUser">
             <a class="nav-link" routerLink="/karteprikaz">Moje karte</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/vozilomapa">Mapa vozila</a>
+          </li>
+        <li class="nav-item" >
+          <a class = "nav-link" routerLink="/kontrolorvalidacijakarte" *ngIf="IsLoggedIn && IsKontrolor">Validacija karte</a>
+        </li>
+        <li class="nav-item" >
+          <a class = "nav-link" routerLink="/kontrolorvalidacijaprofila" *ngIf="IsLoggedIn && IsKontrolor">Validacija profila</a>
+        </li>
     </ul>
           <ul class="navbar-nav ml-auto mr-1">
               <li class="nav-item" *ngIf="!IsLoggedIn">
@@ -24,10 +33,10 @@
                 <li class="nav-item" *ngIf="!IsLoggedIn">
                     <a class="nav-link" routerLink="/registracija">Registracija</a>
                   </li>
-              <li class="nav-item"  *ngIf="IsLoggedIn && !IsAdmin">
+              <li class="nav-item"  *ngIf="IsLoggedIn && IsUser">
                 <a class="nav-link" routerLink="/editprofile">Uredi profil</a>
               </li>    
-              <li class="nav-item"  *ngIf="IsLoggedIn && !IsAdmin">
+              <li class="nav-item"  *ngIf="IsLoggedIn && IsUser">
                 <a class="nav-link" routerLink="/changpass">Promeni sifru </a>
               </li>  
             <li class="nav-item"><button *ngIf="IsLoggedIn" (click)="LogOut()" class="btn btn-light">Odjava</button></li>

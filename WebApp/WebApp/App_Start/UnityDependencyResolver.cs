@@ -8,6 +8,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
+using WebApp.Hubs;
 using WebApp.Models;
 using WebApp.Persistence;
 using WebApp.Persistence.Repository;
@@ -78,6 +79,7 @@ namespace WebApp.App_Start
             container.RegisterType<ITipKarteRepository, TipKarteRepository>();
             container.RegisterType<IVrstaPutnikaRepository, VrstaPutnikaRepository>();
             container.RegisterType<IStavkaRepository, StavkaRepository>();
+            container.RegisterType<LocationHub>();
         }
 
         public void Dispose()

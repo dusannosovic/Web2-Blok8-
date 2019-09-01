@@ -29,7 +29,7 @@ namespace WebApp.Controllers
             {
                 if (!lin.IsDelete)
                 {
-                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije , Verzija = lin.Verzija });
                 }
             }
             //return _unitOfWork.Linijas.GetAll();
@@ -45,7 +45,7 @@ namespace WebApp.Controllers
             foreach (Linija lin in _unitOfWork.Linijas.GetAll())
             {
                 if(lin.TipLinije.ToString() == linija && !lin.IsDelete)
-                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije });
+                    linijas.Add(new LinijaBinding() { OznakaLinije = lin.OznakaLinije, TipLinije = lin.TipLinije, Verzija = lin.Verzija });
             }
             //return _unitOfWork.Linijas.GetAll();
             return linijas.AsEnumerable();
@@ -142,12 +142,17 @@ namespace WebApp.Controllers
             }
             
             Linija linija = _unitOfWork.Linijas.GetAll().Single(ozn => ozn.OznakaLinije == linijaas.Linija.OznakaLinije);
+            if(linijaas.Linija.Verzija != linija.Verzija)
+            {
+                return BadRequest("Linija je vec izmenjena");
+            }
             linija.Polascis.Clear();
             linija.Stanicas.Clear();
             _unitOfWork.Complete();
             linija = _unitOfWork.Linijas.GetAll().Single(ozn => ozn.OznakaLinije == linijaas.Linija.OznakaLinije);
             linija.Polascis = listp;
             linija.Stanicas = lists;
+            linija.Verzija++;
             _unitOfWork.Complete();
             return CreatedAtRoute("DefaultApi", new { id = linija.OznakaLinije }, linija);
         }

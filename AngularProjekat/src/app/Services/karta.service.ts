@@ -10,6 +10,7 @@ const httpOptions = {
 @Injectable({providedIn: 'root'})
 export class KartaService{
     private kartaUrl = 'http://localhost:52295/api/Karta'
+    private ValidateKartaUrl = 'http://localhost:52295/api/Karta/Validate';
     constructor(private http: HttpClient){}
 
     putKarta(karta: KartaModel): Observable<KartaModel>{
@@ -24,6 +25,9 @@ export class KartaService{
         //catchError(this.handleError('Post', ))
       );
   }
+  validateKarta(id: any) : Observable<any>{
+    return this.http.get<any>(`${this.ValidateKartaUrl}?ID=${id}`);
+}
 
 
     private handleError<T> (operation = 'operation', result?: T) {

@@ -13,6 +13,7 @@ namespace WebApp.Models
         public string OznakaLinije { get; set; }
 
         public bool IsDelete { get; set; }
+        public int Verzija { get; set; }
 
         public virtual ICollection<Stanica> Stanicas { get; set; }
         public virtual ICollection<Polasci> Polascis { get; set; }

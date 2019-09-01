@@ -28,7 +28,7 @@ namespace WebApp.Controllers
             foreach(Stanica st in _unitOfWork.Stanicas.GetAll())
             {
                 if (!st.IsDeleted) {
-                    stanicas.Add(new MarkerInfo() { location = new GeoLocation() { latitude = st.X, longitude = st.Y }, label = st.Adresa, title = st.Naziv, id = st.Id });
+                    stanicas.Add(new MarkerInfo() { location = new GeoLocation() { latitude = st.X, longitude = st.Y }, label = st.Adresa, title = st.Naziv, id = st.Id, Verzija = st.Verzija});
                 }
             }
             return stanicas.AsEnumerable();
@@ -50,7 +50,7 @@ namespace WebApp.Controllers
                     }
                 }
                 if (!check && !sta.IsDeleted)
-                    stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y},label = sta.Adresa, title = sta.Naziv });
+                    stanicas.Add(new MarkerInfo() { id = sta.Id, location = new GeoLocation() { latitude = sta.X, longitude = sta.Y},label = sta.Adresa, title = sta.Naziv, Verzija = sta.Verzija });
             }
             //return _unitOfWork.Linijas.GetAll();
             return stanicas.AsEnumerable();
@@ -96,6 +96,10 @@ namespace WebApp.Controllers
         public IHttpActionResult updatestanica(MarkerInfo marker)
         {
             Stanica stanica = _unitOfWork.Stanicas.GetAll().Single(sta => sta.Id == marker.id);
+            if(marker.Verzija != stanica.Verzija)
+            {
+                return BadRequest("Stanica je vec izmenjena od strane drugog admina");
+            }
             if(stanica.Naziv != marker.title)
             {
                 stanica.Naziv = marker.title;
@@ -112,6 +116,7 @@ namespace WebApp.Controllers
             {
                 stanica.Y = marker.location.longitude;
             }
+            stanica.Verzija++;
             _unitOfWork.Complete();
             return CreatedAtRoute("DefaultApi", new { id = stanica.Id }, stanica);
         }

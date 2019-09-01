@@ -76,6 +76,9 @@
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -261,6 +264,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\LocationHub.cs" />
     <Compile Include="Migrations\201905222056072_InitialMigration.cs" />
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
@@ -296,6 +300,14 @@
     <Compile Include="Migrations\201906112242068_updatemodelKarta2.cs" />
     <Compile Include="Migrations\201906112242068_updatemodelKarta2.Designer.cs">
       <DependentUpon>201906112242068_updatemodelKarta2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908242108339_verzija.cs" />
+    <Compile Include="Migrations\201908242108339_verzija.Designer.cs">
+      <DependentUpon>201908242108339_verzija.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908290821026_PayPalDataBase.cs" />
+    <Compile Include="Migrations\201908290821026_PayPalDataBase.Designer.cs">
+      <DependentUpon>201908290821026_PayPalDataBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -384,7 +396,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -459,6 +473,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906112242068_updatemodelKarta2.resx">
       <DependentUpon>201906112242068_updatemodelKarta2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908242108339_verzija.resx">
+      <DependentUpon>201908242108339_verzija.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908290821026_PayPalDataBase.resx">
+      <DependentUpon>201908290821026_PayPalDataBase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

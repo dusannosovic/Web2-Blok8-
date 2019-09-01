@@ -12,6 +12,8 @@ namespace WebApp.Models
         public string label { get; set; }
         public GeoLocation location { get; set; }
 
+        public int Verzija { get; set; }
+
 
         
     }
@@ -25,6 +27,8 @@ namespace WebApp.Models
         public TipLin TipLinije { get; set; }
         
         public string OznakaLinije { get; set; }
+
+        public int Verzija { get; set; }
     }
     public class PolazakBinding
     {
@@ -53,10 +57,16 @@ namespace WebApp.Models
         public string VrstaPutnika { get; set; }
         public string TipKarte { get; set; }
         public string Email { get; set; }
+        public string PayId { get; set; }
     }
     public class TipKarteBinding
     {
         public string Tip { get; set; }
         public float Cena { get; set; }
+    }
+    public class ValidateUserBindingModel
+    {
+        public string Username { get; set; }
+        public string Status { get; set; }
     }
 }

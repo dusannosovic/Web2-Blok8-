@@ -13,6 +13,8 @@ import {Title} from '@angular/platform-browser'
 export class NavbarComponent implements OnInit {
   IsLoggedIn: boolean;
   IsAdmin: boolean;
+  IsKontrolor: boolean;
+  IsUser: boolean;
   title = 'Autobusi';
   constructor(private notifyService: NotifyService, private authService: AuthService, private loginService: LoginService, private router: Router, private titleService: Title) { }
 
@@ -33,10 +35,14 @@ export class NavbarComponent implements OnInit {
     this.notifyService.sessionEvent.subscribe((loggedIn : boolean) => {
       this.IsLoggedIn = this.authService.isLoggedIn();
       this.IsAdmin = this.authService.isAdmin();
+      this.IsKontrolor = this.authService.isKontrolor();
+      this.IsUser = this.authService.isKorisnik();
   });
 
   this.IsLoggedIn = this.authService.isLoggedIn();
   this.IsAdmin = this.authService.isAdmin();
+  this.IsKontrolor = this.authService.isKontrolor();
+  this.IsUser = this.authService.isKorisnik();
   }
 
 }

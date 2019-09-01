@@ -16,6 +16,8 @@ namespace WebApp.Models
         public virtual Stavka Stavka { get; set; }
         public string Korisnik { get; set; }
 
+        public string PayPalId { get; set; }
+
 
     }
 }

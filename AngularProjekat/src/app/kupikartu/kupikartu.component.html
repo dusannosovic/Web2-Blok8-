@@ -6,7 +6,8 @@
         <label> Unestie email adresu na koju zelite da stigne karta:</label>
         <input type="email" class="form-control" id="email" formControlName="karta">
         <a routerLink="/red-voznje">
-        <button (click)="kupiKartu()" class="btn btn-primary" router-lin>Kupi</button>
+        <!--<button (click)="kupiKartu()" class="btn btn-primary" router-lin>Kupi</button>
+        <div id="paypal-checkout-btn"></div>-->
         </a>
       </div>
    </form>
@@ -15,6 +16,8 @@
       <label class="alert alert-inforamtion">Tip karte:{{tipKarte}}</label>
       <label class="alert alert-inforamtion">Tip popusta:{{tipPopusta}}</label>
       <label class="alert alert-inforamtion">Cena karte:{{cena}}</label>
-      <button (click)="kupiKartuLog()" class="btn btn-primary">Potvrdi kupovinu</button>
+      <!--<button (click)="kupiKartuLog()" class="btn btn-primary">Potvrdi kupovinu</button>-->
+      <!--<div id="paypal-checkout-btn"></div>-->
   </div>
+  <div id="paypal-checkout-btn"></div>
 </div>

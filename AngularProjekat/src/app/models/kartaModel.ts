@@ -4,4 +4,5 @@ export class KartaModel{
     VrstaPutnika: string;
     TipKarte: string;
     Email:string;
+    PayId: string;
 }

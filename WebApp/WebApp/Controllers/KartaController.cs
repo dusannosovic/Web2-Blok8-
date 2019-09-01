@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 using WebApp.Models;
 using WebApp.Persistence.UnitOfWork;
@@ -42,7 +43,6 @@ namespace WebApp.Controllers
             return kartas.AsEnumerable();
         }
         [Route("api/Karta")]
-        [Authorize(Roles = "AppUser")]
         [HttpPost]
         public IHttpActionResult PostKarta(KartaBinding karta)
         {
@@ -60,7 +60,7 @@ namespace WebApp.Controllers
                     }
                 }
 
-                kartaTemp = new Karta() { Cena = karta.Cena, DatumIzdavanja = DateTime.Now, TipKarte = karta.TipKarte, VrstaPutnika = karta.VrstaPutnika, Korisnik = karta.Username, Stavka = tempStavka };
+                kartaTemp = new Karta() { Cena = karta.Cena, DatumIzdavanja = DateTime.Now, TipKarte = karta.TipKarte, VrstaPutnika = karta.VrstaPutnika, Korisnik = karta.Username, Stavka = tempStavka, PayPalId = karta.PayId };
             }
             else
             {
@@ -72,12 +72,13 @@ namespace WebApp.Controllers
                         tempStavka = stavka;
                     }
                 }
-                kartaTemp = new Karta() { Cena = karta.Cena, DatumIzdavanja = DateTime.Now, TipKarte = karta.TipKarte, VrstaPutnika = karta.VrstaPutnika, Stavka = tempStavka };
+                kartaTemp = new Karta() { Cena = karta.Cena, DatumIzdavanja = DateTime.Now, TipKarte = karta.TipKarte, VrstaPutnika = karta.VrstaPutnika, Stavka = tempStavka, PayPalId = karta.PayId };
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
                 message.From = new MailAddress("cardservicebus@gmail.com");
                 message.To.Add(new MailAddress(karta.Email));
-                message.Subject = "Upravo ste kupili kartu";
+                message.Subject = "Hvala sto ste kupili kartu";
+                message.Body = $"KARTA {Environment.NewLine} Cena: {karta.Cena} {Environment.NewLine} Datum izdavanja: {kartaTemp.DatumIzdavanja} {Environment.NewLine} Tip Karte: {kartaTemp.TipKarte} {Environment.NewLine} Vrsta popusta: {karta.VrstaPutnika}";
                 //message.IsBodyHtml = true; //to make message body as html  
                 //message.Body = htmlString;
                 smtp.Port = 587;
@@ -96,7 +97,71 @@ namespace WebApp.Controllers
             //return null;
 
         }
+        [HttpGet]
+        [Route("api/Karta/Validate")]
+        public string Validate(int ID)
+        {
+            StringBuilder result = new StringBuilder("");
 
+            Karta karta = _unitOfWork.Kartas.GetAll().FirstOrDefault(k => k.Id == ID);
+            if (karta == null)
+            {
+                result.Append("Karta je nepostojeca.");
+                return result.ToString();
+            }
+            else if (!ProveriKartu(karta))
+            {
+                result.Append("Karta je nevazeca.");
+            }
+            else
+            {
+                result.Append("Karta je vazeca.");
+            }
+
+            result.Append($"ID:{ID};");
+            result.Append($"Datum i vreme izdavanja:{karta.DatumIzdavanja.ToString()};");
+            result.Append($"Korisnik na koga se odnosi: {karta.Korisnik};");
+            result.Append($"Tip karte: {karta.TipKarte.ToString()};");
+            result.Append($"Vrsta karte: {karta.VrstaPutnika.ToString()};");
+            result.Append($"Cena: {karta.Cena.ToString()}");
+
+            return result.ToString();
+        }
+        private bool ProveriKartu(Karta karta)
+        {
+            bool res = true;
+            switch (karta.TipKarte)
+            {
+                case "Vremenska":
+                    if ((DateTime.Now - karta.DatumIzdavanja).TotalMinutes > 60)
+                    {
+                        res = false;
+                    }
+                    break;
+                case "Dnevna":
+                    if (karta.DatumIzdavanja.Day != DateTime.Now.Day)
+                    {
+                        res = false;
+                    }
+                    break;
+                case "Mesecna":
+                    if (karta.DatumIzdavanja.Month != DateTime.Now.Month)
+                    {
+                        res = false;
+                    }
+                    break;
+                case "Godisnja":
+                    if (karta.DatumIzdavanja.Year != DateTime.Now.Year)
+                    {
+                        res = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return res;
+        }
 
         // DELETE: api/Karta/5
         [HttpDelete]

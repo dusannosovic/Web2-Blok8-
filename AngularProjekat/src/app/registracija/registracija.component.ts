@@ -25,7 +25,7 @@ export class RegistracijaComponent implements OnInit {
       type: ['RegularniKorisnik', Validators.required],
       username: ['',[Validators.required,Validators.minLength(6)]],
       email: ['',[Validators.email]],
-      password: ['',[Validators.required,Validators.minLength(6),Validators.pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])/)]],
+      password: ['',[Validators.required/*,Validators.minLength(6),Validators.pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])/)*/]],
       confirmPassword: ['',Validators.required],
       imgUrl: [''],
       
@@ -71,7 +71,10 @@ export class RegistracijaComponent implements OnInit {
           }
           this.router.navigate(['/login']);   
         },
-        (error) => {}
+        (error) => {
+          alert("Korisnik sa korisnickim imenom -> " + this.registerForm.get('username').value + " vec postoji. Pokusajte ponovo." );
+          this.registerForm.patchValue({username : ''});
+        }
       );
     }
   }

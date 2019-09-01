@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -16,8 +21,8 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using WebApp.Models;
-using WebApp.Persistence.UnitOfWork;
 using WebApp.Persistence;
+using WebApp.Persistence.UnitOfWork;
 using WebApp.Providers;
 using WebApp.Results;
 
@@ -225,6 +230,80 @@ namespace WebApp.Controllers
                 }
                 return BadRequest("Greska prilikom izmene profila.");
             }
+
+
+        }
+        [HttpPut]
+        [Route("ValidateUser")]
+        //[Authorize(Roles = "Controller")]
+        [AllowAnonymous]
+        public IHttpActionResult ValidateUser(ValidateUserBindingModel userToValidate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ApplicationUser user = UserManager.FindByName(userToValidate.Username);
+
+            if (user == null)
+            {
+                return BadRequest("Korisnik sa datim username-om ne postoji.");
+            }
+
+
+            if(userToValidate.Status == "Prihvacen")
+            {
+                user.IsVerified = true;
+            }
+            else
+            {
+                user.IsVerified = false;
+            }
+
+            try
+            {
+                UserManager.Update(user);
+                UnitOfWork.Complete();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+            MailMessage message = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            message.From = new MailAddress("cardservicebus@gmail.com");
+            message.Subject = "Zahtev za popust";
+            message.Body = $"Vrsta karte: {user.UserType.ToString()} {Environment.NewLine} Popust(odobren/neodobren) {user.IsVerified.ToString()}.";
+            smtp.Port = 587;
+            smtp.Host = "smtp.gmail.com"; //for gmail host  
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("cardservicebus@gmail.com", "Web2Blok8");
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtp.Send(message);
+            /*
+            MailMessage mail = new MailMessage("gulegjsp@gmail.com", user.Email);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = true;
+            client.Credentials = new NetworkCredential("gulegjsp@gmail.com", "Gulice123!");
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            mail.Subject = "Zahtev za popust";
+            mail.Body = $"Vrsta karte: {user.UserType.ToString()} {Environment.NewLine} Popust(odobren/neodobren) {user.IsVerified.ToString()}.";*/
+            try
+            {
+                //client.Send(mail);
+                smtp.Send(message);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Ok();
 
 
         }
@@ -573,7 +652,8 @@ namespace WebApp.Controllers
         }
 
         // POST api/Account/Register
-        [Authorize(Roles = "AppUser")]
+        //[Authorize(Roles = "AppUser")]
+        [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
@@ -660,6 +740,27 @@ namespace WebApp.Controllers
             }
 
             base.Dispose(disposing);
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetAllUsersForValidation")]
+        public List<RegisterBindingModel> GetAllUsersForValidation()
+        {
+            List<RegisterBindingModel> retVal = UserManager.Users.Where(x => x.ImgUrl != null && !x.UserType.Equals("Regular") && !x.IsVerified).
+                Select(y => new RegisterBindingModel()
+                {
+                    Firstname = y.Firstname,
+                    Secondname = y.Secondname,
+                    Username = y.UserName,
+                    UserType = y.UserType,
+                    Address = y.Address,
+                    DateOfBirth = y.DateOfBirth,
+                    Email = y.Email,
+                    Password = y.PasswordHash,
+                    ImgUrl = y.ImgUrl,
+                    IsVerified = y.IsVerified
+                }).ToList();
+            return retVal;
         }
 
         #region Helpers

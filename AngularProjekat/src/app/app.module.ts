@@ -29,6 +29,10 @@ import { EditprofileComponent } from './editprofile/editprofile.component';
 import { ChangpassComponent } from './changpass/changpass.component';
 import{TokenInterceptor} from'./interceptor/token.interceptor';
 import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component';
+import { VozilomapaComponent } from './vozilomapa/vozilomapa.component';
+import { LokacijaService } from './Services/lokacija.service';
+import { KontrolorvalidacijakarteComponent } from './kontrolorvalidacijakarte/kontrolorvalidacijakarte.component';
+import { KontrolorvalidacijaprofilaComponent } from './kontrolorvalidacijaprofila/kontrolorvalidacijaprofila.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,9 @@ import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component'
     EditprofileComponent,
     ChangpassComponent,
     UredicenovnikComponent,
+    VozilomapaComponent,
+    KontrolorvalidacijakarteComponent,
+    KontrolorvalidacijaprofilaComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +67,7 @@ import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component'
     HttpModule,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}, LokacijaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

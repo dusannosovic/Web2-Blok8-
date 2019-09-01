@@ -5,6 +5,7 @@ export class MarkerInfo {
     title: string;
     label: string;
     location: GeoLocation;
+    Verzija: Number;
 
     constructor(location: GeoLocation, title:string, label:string){
         this.title = title;

@@ -18,6 +18,9 @@ import { ChangpassComponent } from './changpass/changpass.component';
 import { UredicenovnikComponent } from './uredicenovnik/uredicenovnik.component';
 import { AuthGuard } from './Services/auth.guard';
 import { AuthUserGuard } from './Services/authuser.guard';
+import { VozilomapaComponent } from './vozilomapa/vozilomapa.component';
+import { KontrolorvalidacijakarteComponent } from './kontrolorvalidacijakarte/kontrolorvalidacijakarte.component';
+import { KontrolorvalidacijaprofilaComponent } from './kontrolorvalidacijaprofila/kontrolorvalidacijaprofila.component';
 
 const routes: Routes = [
   {
@@ -56,6 +59,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path:'vozilomapa',
+    component: VozilomapaComponent,
+  },
+  {
     path: 'karteprikaz',
     component: KarteprikazComponent,
     canActivate: [AuthUserGuard]
@@ -63,6 +70,13 @@ const routes: Routes = [
   {
     path: 'registracija',
     component: RegistracijaComponent
+  },{
+    path: 'kontrolorvalidacijakarte',
+    component: KontrolorvalidacijakarteComponent 
+  },
+  {
+    path: 'kontrolorvalidacijaprofila',
+    component: KontrolorvalidacijaprofilaComponent
   },
   {
     path: 'logreg',

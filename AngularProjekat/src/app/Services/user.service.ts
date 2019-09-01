@@ -22,6 +22,8 @@ export class UserService{
     private ChangePassUrl = 'http://localhost:52295/api/Account/ChangePassword';
     private UploadImageUrl = 'http://localhost:52295/api/Account/UploadImage/';
     private DownloadImageUrl = 'http://localhost:52295/api/Account/DownloadImage/';
+    private GetUsersForValidationUrl = 'http://localhost:52295/api/Account/GetAllUsersForValidation';
+    private ValidateUserUrl = 'http://localhost:52295/api/Account/ValidateUser';
     constructor(private http: HttpClient, private router: Router){}
 
    getUser(username:string) : Observable<Korisnik> {
@@ -40,15 +42,22 @@ export class UserService{
 
    uploadImage(data: any, username: string) : Observable<any> {
      
-    //return this.http.post(this.UploadImageUrl + username, data).pipe(catchError(this.handleError<any>('UploadImage')));
+    return this.http.post(this.UploadImageUrl + username, data).pipe(catchError(this.handleError<any>('UploadImage')));
     return null;
    }
 
    downloadImage(username: string) : Observable<any>{
-    //return this.http.get(this.DownloadImageUrl + username).pipe(catchError(this.handleError<any>('DownloadImage')));
+    return this.http.get(this.DownloadImageUrl + username).pipe(catchError(this.handleError<any>('DownloadImage')));
     return null;
    }
    
+   getUsersForValidation() : Observable<any>{
+    return this.http.get(this.GetUsersForValidationUrl);
+   }
+
+   validateUser(data: any) : Observable<any>{
+     return this.http.put(this.ValidateUserUrl, data);
+   }
    private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       return of(result as T);
